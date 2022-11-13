@@ -15,5 +15,9 @@ namespace DesignHelper.Infrastructure.Constrains
         //Desctription
         public const int DescriptionMinLength = 5;
         public const int DescriptionMaxLength = 1000;
+
+        //Category
+        public const int CategoryNameMinLength = 5;
+        public const int CategoryNameMaxLength = 50;
     }
 }
