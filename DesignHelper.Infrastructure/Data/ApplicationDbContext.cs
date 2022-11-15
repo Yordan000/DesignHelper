@@ -18,6 +18,7 @@ namespace DesignHelper.Infrastructure.Data
 
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ToolsUsedConfiguration());
+            builder.ApplyConfiguration(new AwardsConfiguration());
 
             base.OnModelCreating(builder);
         }
