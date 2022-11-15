@@ -21,28 +21,40 @@ namespace DesignHelper.Infrastructure.Data
         public string ImageUrl { get; set; } = null!;
 
         [Required]
+        [MaxLength(ConstrainValidations.LocationMaxLength)]
         public string Location { get; set; } = null!;
 
         [Required]
-        public string Designer { get; set; } = null!;
+        [MaxLength(ConstrainValidations.AuthorMaxLength)]
+        public string Author { get; set; } = null!;
 
         [Required]
+        [Range(ConstrainValidations.AreaMinLength, ConstrainValidations.AreaMaxLength)]
         public double Area { get; set; }
 
         [Required]
+        [Range(typeof(decimal), ConstrainValidations.RatingMinLength, ConstrainValidations.RatingMaxLength)]
         public decimal Rating { get; set; }
 
         [Required]
-        public bool Awards { get; set; }
+        public int AwardId { get; set; }
+
+        [ForeignKey(nameof(AwardId))]
+        public AwardEntity Awards { get; set; } = null!;
 
         [Required]
-        public bool Visualization { get; set; }
+        public int ToolsId { get; set; }
+
+        [ForeignKey(nameof(ToolsId))]
+        public ToolUsed ToolsUsed { get; set; } = null!;
 
         [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
+
+        public List<UserProject> UsersProjects { get; set; } = new List<UserProject>();
       
     }
 }

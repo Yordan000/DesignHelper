@@ -3,15 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DesignHelper.Infrastructure.Data
 {
-    public class AwardEntity
+    public class ToolUsed
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ConstrainValidations.AwardsNameMaxLength)]
+        [MaxLength(ConstrainValidations.ToolsUsedNameMaxLength)]
         public string Name { get; set; } = null!;
-
-        public List<ProjectEntity> ProjectsWithAwards { get; set; } = new List<ProjectEntity>();
     }
 }
