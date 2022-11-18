@@ -39,14 +39,14 @@ namespace DesignHelper.Models
 
         public int AwardId { get; set; }
 
-        public List<AwardEntity> Awards { get; set; } = new List<AwardEntity>();
+        public IEnumerable<AwardEntity> Awards { get; set; } = new List<AwardEntity>();
 
         public int ToolsId { get; set; }
 
-        public List<ToolUsed> Tools { get; set; } = new List<ToolUsed>();
+        public IEnumerable<ToolUsed> Tools { get; set; } = new List<ToolUsed>();
 
         public int CategoryId { get; set; }
 
-        public List<Category> Categories { get; set; } = new List<Category>();
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
     }
 }

@@ -1,4 +1,6 @@
+using DesignHelper.Contracts;
 using DesignHelper.Infrastructure.Data;
+using DesignHelper.Services;
 using HouseRentingSystem.ModelBinders;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +23,13 @@ builder.Services.AddControllersWithViews()
     {
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
     });
+
+builder.Services.AddScoped<IProjectService, ProjectService>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/User/Login";
+});
  
 
 var app = builder.Build();
