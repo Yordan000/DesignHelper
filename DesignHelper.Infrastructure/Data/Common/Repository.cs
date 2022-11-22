@@ -1,9 +1,8 @@
-﻿using DesignHelper.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
-namespace HouseRentingSystem.Infrastructure.Data.Common
+namespace DesignHelper.Infrastructure.Data.Common
 {
     /// <summary>
     /// Implementation of repository access methods

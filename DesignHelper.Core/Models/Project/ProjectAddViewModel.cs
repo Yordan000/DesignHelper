@@ -1,9 +1,7 @@
 ﻿using DesignHelper.Infrastructure.Constrains;
-using DesignHelper.Infrastructure.Data;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace DesignHelper.Models
+namespace DesignHelper.Core.Models.Project
 {
     public class ProjectAddViewModel
     {
@@ -18,9 +16,11 @@ namespace DesignHelper.Models
         public string Description { get; set; } = null!;
 
         [Required]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
+        [MinLength(ConstrainValidations.LocationMinLength)]
         [MaxLength(ConstrainValidations.LocationMaxLength)]
         public string Location { get; set; } = null!;
 
@@ -37,16 +37,19 @@ namespace DesignHelper.Models
         [Range(typeof(decimal), ConstrainValidations.RatingMinLength, ConstrainValidations.RatingMaxLength)]
         public decimal Rating { get; set; }
 
+        [Display(Name = "Award")]
         public int AwardId { get; set; }
 
-        public IEnumerable<AwardEntity> Awards { get; set; } = new List<AwardEntity>();
+        public IEnumerable<ProjectAwardsModel> ProjectAwards { get; set; } = new List<ProjectAwardsModel>();
 
+        [Display(Name = "Tools used")]
         public int ToolsId { get; set; }
 
-        public IEnumerable<ToolUsed> Tools { get; set; } = new List<ToolUsed>();
+        public IEnumerable<ProjectToolsUsedModel> ProjectTools { get; set; } = new List<ProjectToolsUsedModel>();
 
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public IEnumerable<ProjectCategoryModel> ProjectCategories { get; set; } = new List<ProjectCategoryModel>();
     }
 }

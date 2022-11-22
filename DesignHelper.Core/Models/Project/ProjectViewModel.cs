@@ -3,7 +3,7 @@ using DesignHelper.Infrastructure.Data;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace DesignHelper.Models
+namespace DesignHelper.Core.Models.Project
 {
     public class ProjectViewModel
     {

@@ -1,4 +1,5 @@
-﻿@model ProjectAddViewModel
+﻿@using DesignHelper.Core.Models.Project
+@model ProjectAddViewModel
 
 @{
     ViewBag.Title = "Add Project";
@@ -49,7 +50,7 @@
             <div class="mb-3">
                 <label asp-for="@Model.CategoryId" class="form-label">Category</label>
                 <select asp-for="@Model.CategoryId" class="form-control">
-                    @foreach (var category in Model.Categories)
+                    @foreach (var category in Model.ProjectCategories)
                     {
                           <option value="@category.Id">@category.Name</option>
                     }
@@ -59,7 +60,7 @@
             <div class="mb-3">
                 <label asp-for="@Model.AwardId" class="form-label">Award</label>
                 <select asp-for="@Model.AwardId" class="form-control">
-                    @foreach (var award in Model.Awards)
+                    @foreach (var award in Model.ProjectAwards)
                     {
                           <option value="@award.Id">@award.Name</option>
                     }
@@ -69,7 +70,7 @@
             <div class="mb-3">
                 <label asp-for="@Model.ToolsId" class="form-label">Tools</label>
                 <select asp-for="@Model.ToolsId" class="form-control">
-                    @foreach (var tools in Model.Tools)
+                    @foreach (var tools in Model.ProjectTools)
                     {
                          <option value="@tools.Id">@tools.Name</option>
                     }

@@ -1,5 +1,6 @@
 using DesignHelper.Contracts;
 using DesignHelper.Infrastructure.Data;
+using DesignHelper.Infrastructure.Data.Common;
 using DesignHelper.Services;
 using HouseRentingSystem.ModelBinders;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ builder.Services.AddControllersWithViews()
     });
 
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
