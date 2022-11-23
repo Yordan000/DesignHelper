@@ -26,5 +26,19 @@ namespace DesignHelper.Services
                 })
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<ProjectHomeModel>> LastThreeProjects()
+        {
+            return await repo.AllReadonly<ProjectEntity>()
+                .OrderByDescending(p => p.Id)
+                .Select(p => new ProjectHomeModel()
+                {
+                    Id = p.Id,
+                    ImageUrl = p.ImageUrl,
+                    Title = p.Title
+                })
+                .Take(3)
+                .ToListAsync();
+        }
     }
 }

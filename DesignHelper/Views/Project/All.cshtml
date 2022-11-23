@@ -1,15 +1,14 @@
-﻿@using DesignHelper.Core.Models.Project
-@model IEnumerable<ProjectViewModel>
+﻿@model IEnumerable<AllProjectsQueryModel>
 
 @{
-    ViewBag.Title = "Projects";
+    ViewBag.Title = "All Projects";
 }
 
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<div class="text-center row">
+@*<div class="text-center row">
     @foreach (var project in Model)
     {
             <div class="card col-4" style="width: 20rem; ">
@@ -20,7 +19,7 @@
                         <h5 class="card-title mt-1">@project.Title</h5>
                             <p class="mb-0">Author: @project.Author</p>
                         <p class="mb-0">Rating: @project.Rating</p>
-                        <p>Category: @project.Category</p>
+                        <p>Category: @project.c</p>
                 </div>
 
                     <form class="input-group-sm" asp-controller="Project" asp-action="AddToCollection" asp-route-bookId="@project.Id">
@@ -28,4 +27,4 @@
                 </form>
             </div>
     }
-</div>
+</div>*@

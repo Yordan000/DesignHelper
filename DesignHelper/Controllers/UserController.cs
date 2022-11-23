@@ -26,7 +26,7 @@ namespace DesignHelper.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("All", "Project");
+                return RedirectToAction("Index", "Home");
             }
             var model = new RegisterViewModel();
 
@@ -70,7 +70,7 @@ namespace DesignHelper.Controllers
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("All", "Project");
+                return RedirectToAction("Index", "Home");
             }
 
             var model = new LoginViewModel();
@@ -95,7 +95,7 @@ namespace DesignHelper.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("All", "Project");
+                    return RedirectToAction("Index", "Home");
                 }
 
             }

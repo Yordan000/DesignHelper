@@ -5,6 +5,8 @@ namespace DesignHelper.Contracts
     public interface IProjectService
     {
         Task<IEnumerable<ProjectCategoryModel>> GetAllCategories();
+
+        Task<IEnumerable<ProjectHomeModel>> LastThreeProjects();
      
     }
 }

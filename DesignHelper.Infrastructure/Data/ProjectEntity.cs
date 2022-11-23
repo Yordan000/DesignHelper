@@ -37,7 +37,7 @@ namespace DesignHelper.Infrastructure.Data
         public decimal Rating { get; set; }
 
         [Required]
-        public int AwardId { get; set; }
+        public int? AwardId { get; set; }
 
         [ForeignKey(nameof(AwardId))]
         public AwardEntity Awards { get; set; } = null!;
