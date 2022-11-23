@@ -38,6 +38,11 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                 {
                     Id = 4,
                     Name = "Best Photography Award 2022"
+                },
+                new AwardEntity()
+                {
+                    Id = 5,
+                    Name = "No awards"
                 }
             };
 

@@ -15,14 +15,61 @@ namespace DesignHelper.Services
         {
             repo = _repo;
         }
+
+        public async Task<int> Create(ProjectAddViewModel model)
+        {
+            var project = new ProjectEntity()
+            {
+                Title = model.Title,
+                Area = model.Area,
+                Location = model.Location,
+                CategoryId = model.CategoryId,
+                Description = model.Description,
+                AwardId = model.AwardId,
+                ToolsId = model.ToolsId,
+                Author = model.Author,
+                ImageUrl = model.ImageUrl,
+                Rating = model.Rating
+            };
+
+            await repo.AddAsync(project);
+            await repo.SaveChangesAsync();
+
+            return project.Id;
+        }
+
+        public async Task<IEnumerable<ProjectAwardsModel>> GetAllAwards()
+        {
+            return await repo.AllReadonly<AwardEntity>()
+                .OrderBy(a => a.Id)
+                .Select(a => new ProjectAwardsModel()
+                {
+                    Id = a.Id,
+                    Name = a.Name
+                })
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<ProjectCategoryModel>> GetAllCategories()
         {
             return await repo.AllReadonly<Category>()
-                .OrderBy(c => c.Name)
+                .OrderBy(c => c.Id)
                 .Select(c => new ProjectCategoryModel()
                 {
                     Id = c.Id,
                     Name = c.Name
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProjectToolsUsedModel>> GetAllTools()
+        {
+            return await repo.AllReadonly<ToolUsed>()
+                .OrderBy(t => t.Id)
+                .Select(t => new ProjectToolsUsedModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name
                 })
                 .ToListAsync();
         }
