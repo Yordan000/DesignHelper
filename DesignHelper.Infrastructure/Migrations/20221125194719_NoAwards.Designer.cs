@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesignHelper.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221123205948_AddingAditionalAward")]
-    partial class AddingAditionalAward
+    [Migration("20221125194719_NoAwards")]
+    partial class NoAwards
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -126,11 +126,6 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = 4,
                             Name = "Best Photography Award 2022"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "No awards"
                         });
                 });
 
@@ -190,8 +185,7 @@ namespace DesignHelper.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("AwardId")
-                        .IsRequired()
+                    b.Property<int>("AwardId")
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
@@ -231,8 +225,6 @@ namespace DesignHelper.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ToolsId");
-
                     b.HasIndex("TopRatedEntityId");
 
                     b.ToTable("ProjectsEntities");
@@ -251,7 +243,12 @@ namespace DesignHelper.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int?>("ToolsId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ToolsId");
 
                     b.ToTable("ToolsUsed");
 
@@ -477,12 +474,6 @@ namespace DesignHelper.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DesignHelper.Infrastructure.Data.ToolUsed", "ToolsUsed")
-                        .WithMany()
-                        .HasForeignKey("ToolsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DesignHelper.Infrastructure.Data.TopRatedEntity", null)
                         .WithMany("Projects")
                         .HasForeignKey("TopRatedEntityId");
@@ -490,8 +481,13 @@ namespace DesignHelper.Infrastructure.Migrations
                     b.Navigation("Awards");
 
                     b.Navigation("Category");
+                });
 
-                    b.Navigation("ToolsUsed");
+            modelBuilder.Entity("DesignHelper.Infrastructure.Data.ToolUsed", b =>
+                {
+                    b.HasOne("DesignHelper.Infrastructure.Data.ProjectEntity", null)
+                        .WithMany("ToolsUsed")
+                        .HasForeignKey("ToolsId");
                 });
 
             modelBuilder.Entity("DesignHelper.Infrastructure.Data.UserProject", b =>
@@ -581,6 +577,8 @@ namespace DesignHelper.Infrastructure.Migrations
 
             modelBuilder.Entity("DesignHelper.Infrastructure.Data.ProjectEntity", b =>
                 {
+                    b.Navigation("ToolsUsed");
+
                     b.Navigation("UsersProjects");
                 });
 

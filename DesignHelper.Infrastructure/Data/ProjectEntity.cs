@@ -37,7 +37,7 @@ namespace DesignHelper.Infrastructure.Data
         public decimal Rating { get; set; }
 
         [Required]
-        public int? AwardId { get; set; }
+        public int AwardId { get; set; }
 
         [ForeignKey(nameof(AwardId))]
         public AwardEntity Awards { get; set; } = null!;
@@ -46,7 +46,7 @@ namespace DesignHelper.Infrastructure.Data
         public int ToolsId { get; set; }
 
         [ForeignKey(nameof(ToolsId))]
-        public ToolUsed ToolsUsed { get; set; } = null!;
+        public List<ToolUsed> ToolsUsed { get; set; } = new List<ToolUsed>();
 
         [Required]
         public int CategoryId { get; set; }
