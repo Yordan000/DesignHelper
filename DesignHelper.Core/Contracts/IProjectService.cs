@@ -10,6 +10,8 @@ namespace DesignHelper.Contracts
 
         Task<int> Create(ProjectAddViewModel model);
         Task<IEnumerable<ProjectHomeModel>> LastThreeProjects();
+
+
      
     }
 }

@@ -16,6 +16,9 @@ namespace DesignHelper.Infrastructure.Data
             builder.Entity<UserProject>()
                 .HasKey(p => new { p.ApplicationUserId, p.ProjectEntityId });
 
+            builder.Entity<ProjectToolsUsed>()
+                .HasKey(p => new { p.ProjectId, p.ToolsUsedId });
+
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ToolsUsedConfiguration());
             builder.ApplyConfiguration(new AwardsConfiguration());

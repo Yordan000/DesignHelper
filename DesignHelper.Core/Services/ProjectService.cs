@@ -3,6 +3,7 @@ using DesignHelper.Core.Models.Project;
 using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace DesignHelper.Services
 {
@@ -26,7 +27,6 @@ namespace DesignHelper.Services
                 CategoryId = model.CategoryId,
                 Description = model.Description,
                 AwardId = model.AwardId,
-                ToolsId = model.ToolsId,
                 Author = model.Author,
                 ImageUrl = model.ImageUrl,
                 Rating = model.Rating
@@ -77,6 +77,7 @@ namespace DesignHelper.Services
         public async Task<IEnumerable<ProjectHomeModel>> LastThreeProjects()
         {
             return await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.IsActive)
                 .OrderByDescending(p => p.Id)
                 .Select(p => new ProjectHomeModel()
                 {

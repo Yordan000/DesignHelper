@@ -42,11 +42,7 @@ namespace DesignHelper.Infrastructure.Data
         [ForeignKey(nameof(AwardId))]
         public AwardEntity Awards { get; set; } = null!;
 
-        [Required]
-        public int ToolsId { get; set; }
-
-        [ForeignKey(nameof(ToolsId))]
-        public List<ToolUsed> ToolsUsed { get; set; } = new List<ToolUsed>();
+        public List<ProjectToolsUsed> ProjectsToolsUsed { get; set; } = new List<ProjectToolsUsed>();
 
         [Required]
         public int CategoryId { get; set; }
@@ -55,6 +51,8 @@ namespace DesignHelper.Infrastructure.Data
         public Category Category { get; set; } = null!;
 
         public List<UserProject> UsersProjects { get; set; } = new List<UserProject>();
+
+        public bool IsActive { get; set; } = true;
       
     }
 }

@@ -28,7 +28,7 @@
 
         //Area
         public const double AreaMinLength = 0.00;
-        public const double AreaMaxLength = 1000.00;
+        public const double AreaMaxLength = 10000.00;
 
         //Awards
         public const int AwardsNameMinLength = 3;

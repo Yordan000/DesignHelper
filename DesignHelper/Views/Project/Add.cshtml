@@ -51,7 +51,7 @@
                 <select asp-for="@Model.CategoryId" class="form-control">
                     @foreach (var category in Model.ProjectCategories)
                     {
-                                          <option value="@category.Id">@category.Name</option>
+                        <option value="@category.Id">@category.Name</option>
                     }
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -61,7 +61,7 @@
                 <select asp-for="@Model.AwardId" class="form-control">
                     @foreach (var award in Model.ProjectAwards)
                     {
-                                          <option value="@award.Id">@award.Name</option>
+                        <option value="@award.Id">@award.Name</option>
                     }
                 </select>
                 <span asp-validation-for="AwardId" class="text-danger"></span>
