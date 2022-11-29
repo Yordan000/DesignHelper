@@ -3,6 +3,7 @@ using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
 using DesignHelper.Services;
 using HouseRentingSystem.ModelBinders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequiredLength = 5;

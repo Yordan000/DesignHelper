@@ -1,10 +1,11 @@
 ﻿using DesignHelper.Infrastructure.Data.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesignHelper.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -13,11 +14,9 @@ namespace DesignHelper.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserProject>()
-                .HasKey(p => new { p.ApplicationUserId, p.ProjectEntityId });
 
             builder.Entity<ProjectToolsUsed>()
-                .HasKey(p => new { p.ProjectId, p.ToolsUsedId });
+                .HasKey(p => new { p.ProjectsEntityId, p.ToolsUsedId });
 
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ToolsUsedConfiguration());

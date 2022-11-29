@@ -1,4 +1,5 @@
 ﻿using DesignHelper.Contracts;
+using DesignHelper.Core.Models.CheckBoxValidation;
 using DesignHelper.Core.Models.Project;
 using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
@@ -19,6 +20,8 @@ namespace DesignHelper.Services
 
         public async Task<int> Create(ProjectAddViewModel model)
         {
+            var toolsUsed = new List<ProjectToolsUsed>();
+
             var project = new ProjectEntity()
             {
                 Title = model.Title,
@@ -29,13 +32,31 @@ namespace DesignHelper.Services
                 AwardId = model.AwardId,
                 Author = model.Author,
                 ImageUrl = model.ImageUrl,
-                Rating = model.Rating
-            };
+                Rating = model.Rating,
+                
+        };
 
             await repo.AddAsync(project);
             await repo.SaveChangesAsync();
 
-            return project.Id;
+            int projectId = project.Id;
+
+            foreach (var item in model.ProjectTools)
+            {
+                if (item.IsChecked == true)
+                {
+                    project.ProjectsToolsUsed.Add(new ProjectToolsUsed()
+                    {
+                        ToolsUsedId = item.Id
+                    });
+                }
+
+            }
+
+            repo.Update(project);
+            await repo.SaveChangesAsync();
+
+            return projectId;
         }
 
         public async Task<IEnumerable<ProjectAwardsModel>> GetAllAwards()
@@ -88,5 +109,6 @@ namespace DesignHelper.Services
                 .Take(3)
                 .ToListAsync();
         }
+
     }
 }

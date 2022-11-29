@@ -50,8 +50,6 @@ namespace DesignHelper.Infrastructure.Data
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
 
-        public List<UserProject> UsersProjects { get; set; } = new List<UserProject>();
-
         public bool IsActive { get; set; } = true;
       
     }

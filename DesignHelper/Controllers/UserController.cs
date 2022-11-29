@@ -9,11 +9,11 @@ namespace DesignHelper.Controllers
     [Authorize]
     public class UserController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<IdentityUser> userManager;
 
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly SignInManager<IdentityUser> signInManager;
 
-        public UserController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
+        public UserController(UserManager<IdentityUser> _userManager, SignInManager<IdentityUser> _signInManager)
         {
             userManager = _userManager;
             signInManager = _signInManager;
@@ -43,7 +43,7 @@ namespace DesignHelper.Controllers
                 return View(model);
             }
 
-            var user = new ApplicationUser()
+            var user = new IdentityUser()
             {
                 UserName = model.UserName,
                 Email = model.Email

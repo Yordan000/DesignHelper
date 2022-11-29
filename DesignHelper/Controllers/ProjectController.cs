@@ -1,5 +1,7 @@
 ﻿using DesignHelper.Contracts;
+using DesignHelper.Core.Models.CheckBoxValidation;
 using DesignHelper.Core.Models.Project;
+using DesignHelper.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,11 +30,20 @@ namespace DesignHelper.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+            var toolsUsed = await projectService.GetAllTools();
+
+
             var model = new ProjectAddViewModel()
             {
                 ProjectCategories = await projectService.GetAllCategories(),
                 ProjectAwards = await projectService.GetAllAwards(),
-                ProjectTools = await projectService.GetAllTools()
+                ProjectTools = toolsUsed.Select(t => new CheckBoxItem()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    IsChecked = false
+                })
+                .ToList()
             };
 
             return View(model);
@@ -45,14 +56,19 @@ namespace DesignHelper.Controllers
             {
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
-                model.ProjectTools = await projectService.GetAllTools();
+
+                foreach (var item in model.ProjectTools)
+                {
+                    
+                }
+                
 
                 return View(model);
             }
 
             int id = await projectService.Create(model);
 
-            return RedirectToAction(nameof(Details), new {id});
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         public async Task<IActionResult> Details(int id)

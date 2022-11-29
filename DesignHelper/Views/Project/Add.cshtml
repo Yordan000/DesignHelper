@@ -1,5 +1,6 @@
 ﻿@model ProjectAddViewModel
 
+
 @{
     ViewBag.Title = "Add Project";
 }
@@ -66,18 +67,27 @@
                 </select>
                 <span asp-validation-for="AwardId" class="text-danger"></span>
             </div>
-            @* <div class="mb-3">
-                <label asp-for="@Model.ToolsId" class="form-label">Tools used</label>
-                <select asp-for="@Model.ToolsId" class="form-control">
-                    @foreach (var tools in Model.ProjectTools)
-                    {
-                         <option value="@tools.Id">@tools.Name</option>
-                    }
-                </select>
-                <span asp-validation-for="ToolsId" class="text-danger"></span>
-            </div>*@
 
-            <div class="mb-3">
+            <div class="form-group">
+                <div class="form-check">
+                <label class="form-label">Tools used</label>
+                @foreach (var tools in Model.ProjectTools)
+                {
+                    
+                    <label class="list-group-item">
+                        <input type="checkbox" value="true"/>
+                        @tools.Name
+                        
+                    @*@Html.HiddenFor(t => tools.Id)
+                    @Html.DisplayFor(tn => tools.Name)
+                    @Html.CheckBoxFor(tn => tools.IsChecked)*@
+
+                    </label>
+                }
+                </div>
+            </div>
+           
+           @* <div class="mb-3">
                 <label class="form-label">Tools used</label>
                 @foreach (var tools in Model.ProjectTools)
                 {
@@ -88,31 +98,7 @@
                     </label>
                 }
                 <span asp-validation-for="ToolsId" class="text-danger"></span>
-            </div>
-
-
-            @*<div class="list-group">
-  <label class="list-group-item">
-    <input class="form-check-input me-1" type="checkbox" value="">
-    First checkbox
-  </label>
-  <label class="list-group-item">
-    <input class="form-check-input me-1" type="checkbox" value="">
-    Second checkbox
-  </label>
-  <label class="list-group-item">
-    <input class="form-check-input me-1" type="checkbox" value="">
-    Third checkbox
-  </label>
-  <label class="list-group-item">
-    <input class="form-check-input me-1" type="checkbox" value="">
-    Fourth checkbox
-  </label>
-  <label class="list-group-item">
-    <input class="form-check-input me-1" type="checkbox" value="">
-    Fifth checkbox
-  </label>
-</div>*@
+            </div>*@
 
             <div class="mb-3">
                 <input class="btn btn-primary" type="submit" value="Add Project" />

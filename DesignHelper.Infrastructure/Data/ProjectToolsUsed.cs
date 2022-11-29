@@ -11,9 +11,9 @@ namespace DesignHelper.Infrastructure.Data
     public class ProjectToolsUsed
     {
         [Required]
-        public int ProjectId { get; set; }
+        public int ProjectsEntityId { get; set; }
 
-        [ForeignKey(nameof(ProjectId))]
+        [ForeignKey(nameof(ProjectsEntityId))]
         public ProjectEntity ProjectTools { get; set; } = null!;
 
         [Required]
