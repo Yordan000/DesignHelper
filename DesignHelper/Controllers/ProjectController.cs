@@ -107,23 +107,112 @@ namespace DesignHelper.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            return View(new ProjectFormModel());
+            if ((await projectService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            var project = await projectService.ProjectDetailsById(id);
+            var categoryId = await projectService.GetProjectCategoryId(id);
+            var awardId = await projectService.GetProjectAwardId(id);
+
+            var model = new ProjectAddViewModel()
+            {
+                CategoryId = categoryId,
+                AwardId = awardId,
+                Area = project.Area,
+                Author = project.Author,
+                Description = project.Description,
+                ImageUrl = project.ImageUrl,
+                Location = project.Location,
+                Rating = project.Rating,
+                Title = project.Title,
+                ProjectCategories = await projectService.GetAllCategories(),
+                ProjectAwards = await projectService.GetAllAwards()
+            };
+
+            return View(model);
         }
 
-        public async Task<IActionResult> Edit(int id, ProjectFormModel project)
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, ProjectAddViewModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (id != model.Id)
+            {
+                
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if ((await projectService.Exists(model.Id)) == false)
+            {
+                ModelState.AddModelError("", "Project doesn't exist");
+                model.ProjectCategories = await projectService.GetAllCategories();
+                model.ProjectAwards = await projectService.GetAllAwards();
+
+                return View(model);
+            }
+
+            if ((await projectService.CategoryExists(model.CategoryId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+                model.ProjectCategories = await projectService.GetAllCategories();
+
+                return View(model);
+            }
+
+            if ((await projectService.AwardExists(model.AwardId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.AwardId), "Award does not exist");
+                model.ProjectAwards = await projectService.GetAllAwards();
+
+                return View(model);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.ProjectCategories = await projectService.GetAllCategories();
+                model.ProjectAwards = await projectService.GetAllAwards();
+
+                return View(model);
+            }
+
+            await projectService.Edit(model.Id, model);
+
+            return RedirectToAction(nameof(Details), new { model.Id });
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            return View(new ProjectDetailsViewModel());
+            if ((await projectService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            var project = await projectService.ProjectDetailsById(id);
+            var model = new ProjectDetailsModel()
+            {
+                ImageUrl = project.ImageUrl,
+                Location = project.Location,
+                Title = project.Title
+            };
+
+            return View(model);
         }
 
-        public async Task<IActionResult> Delete(ProjectDetailsViewModel project)
+        [HttpPost]
+        public async Task<IActionResult> Delete(ProjectDetailsViewModel project, int id)
         {
+            if ((await projectService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            await projectService.Delete(id);
+
             return RedirectToAction(nameof(All));
         }
 

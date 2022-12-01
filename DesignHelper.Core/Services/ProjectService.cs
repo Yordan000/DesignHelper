@@ -108,6 +108,18 @@ namespace DesignHelper.Services
                 .ToListAsync();
         }
 
+        public async Task<bool> AwardExists(int awardId)
+        {
+            return await repo.AllReadonly<AwardEntity>()
+                .AnyAsync(a => a.Id == awardId);
+        }
+
+        public async Task<bool> CategoryExists(int categoryId)
+        {
+            return await repo.AllReadonly<Category>()
+                .AnyAsync(c => c.Id == categoryId);
+        }
+
         public async Task<int> Create(ProjectAddViewModel model)
         {
             var toolsUsed = new List<ProjectToolsUsed>();
@@ -147,6 +159,31 @@ namespace DesignHelper.Services
             await repo.SaveChangesAsync();
 
             return projectId;
+        }
+
+        public async Task Delete(int projectId)
+        {
+            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+            project.IsActive = false;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task Edit(int projectId, ProjectAddViewModel model)
+        {
+            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+
+            project.Description = model.Description;
+            project.ImageUrl = model.ImageUrl;
+            project.Title = model.Title;
+            project.Location = model.Location;
+            project.CategoryId = model.CategoryId;
+            project.Author = model.Author;
+            project.Area = model.Area;
+            project.Rating = model.Rating;
+            project.AwardId = model.AwardId;
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task<bool> Exists(int id)
@@ -208,6 +245,16 @@ namespace DesignHelper.Services
                     Name = t.Name
                 })
                 .ToListAsync();
+        }
+
+        public async Task<int> GetProjectAwardId(int projectId)
+        {
+            return (await repo.GetByIdAsync<ProjectEntity>(projectId)).AwardId;
+        }
+
+        public async Task<int> GetProjectCategoryId(int projectId)
+        {
+            return (await repo.GetByIdAsync<ProjectEntity>(projectId)).CategoryId;
         }
 
         public async Task<bool> IsFavourite(int projectId)

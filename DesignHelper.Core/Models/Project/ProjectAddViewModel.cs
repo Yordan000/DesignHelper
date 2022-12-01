@@ -6,6 +6,8 @@ namespace DesignHelper.Core.Models.Project
 {
     public class ProjectAddViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [MinLength(ConstrainValidations.TitleMinLength)]
         [MaxLength(ConstrainValidations.TitleMaxLength)]

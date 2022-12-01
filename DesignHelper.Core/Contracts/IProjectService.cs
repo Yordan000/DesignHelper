@@ -41,7 +41,17 @@ namespace DesignHelper.Contracts
 
         Task<bool> Exists(int id);
 
+        Task Delete(int projectId);
 
+        Task Edit(int projectId, ProjectAddViewModel model);
+
+        Task<int> GetProjectCategoryId(int projectId);
+
+        Task<bool> CategoryExists(int categoryId);
+
+        Task<int> GetProjectAwardId(int projectId);
+
+        Task<bool> AwardExists(int awardId);
 
     }
 }
