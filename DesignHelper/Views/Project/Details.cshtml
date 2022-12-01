@@ -6,3 +6,53 @@
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 20rem;"
+                 src="@Model.ImageUrl" alt="Project Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Title</u></p>
+            <p>Author: <b>@Model.Author</b></p>
+            <p>Area: <b>@Model.Area</b></p>
+            <p>Located in: <b>@Model.Location</b></p>
+            <p>@Model.Description</p>
+            <p>Category: <b>@Model.Category</b></p>
+            <p>Awards: <b>@Model.Award</b></p>
+            <p>Tools used: <b>@Model.ToolsUsed</b></p>
+            <p><i>(@(Model.IsFavourite ? "Added to Favourites" : "Not added to Favourites"))</i></p>
+            <div class="form-inline">
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                        <a class="btn btn-warning" asp-controller="Project" asp-action="Edit"
+                       asp-route-id="@Model.Id">Edit</a>
+                            <a class="ml-2 btn btn-danger" asp-controller="Project" asp-action="Delete"
+                       asp-route-id="@Model.Id">Delete</a>
+                    @if (!Model.IsFavourite)
+                    {
+                         <form class="ml-2" asp-controller="Project"
+                              asp-action="AddToFavourites" asp-route-id="@Model.Id" method="post">
+                              <input class="btn btn-primary" type="submit" value="Add to Favourites" />
+                         </form>
+                    }
+                    else
+                    {
+                         <form class="ml-2" asp-controller="Project" 
+                         asp-action="RemoveFromFavourites" asp-route-id="@Model.Id" method="post">
+                              <input class="btn btn-primary" type="submit" value="Remove from Favourites" />
+                         </form>
+                    }
+                }
+            </div>
+            <p></p>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Rating Info <b>@Model.Rating</b> <b>/ 10.00</b></h5>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,8 +6,11 @@ namespace DesignHelper.Contracts
     public interface IProjectService
     {
         Task<IEnumerable<ProjectCategoryModel>> GetAllCategories();
+
         Task<IEnumerable<ProjectAwardsModel>> GetAllAwards();
+
         Task<IEnumerable<ProjectToolsUsedModel>> GetAllTools();
+
         Task<int> Create(ProjectAddViewModel model);
 
         Task<ProjectQueryServiceModel> All(
@@ -19,16 +22,20 @@ namespace DesignHelper.Contracts
             int housesPerPage = 1);
 
         Task<IEnumerable<string>> AllCategoriesNames();
+
         Task<IEnumerable<string>> AllAwardsNames();
+
         Task<IEnumerable<ProjectHomeModel>> LastThreeProjects();
 
         Task<IEnumerable<ProjectServiceModel>> Favourites(string userId); 
         
         Task<bool> IsFavourite(int projectId);
 
-        //Task<bool> IsRentedByUserWithId(int projectId, string currentUserId);
+        Task<ProjectDetailsViewModel> ProjectDetailsById(int id);
 
-        Task AddToFavourite(int projectId, string currentUserId);
+        Task<bool> IsFavouriteByUserWithId(int projectId, string currentUserId);
+
+        Task AddToFavourites(int projectId, string currentUserId);
 
         Task RemoveFromFavourite(int projectId);
 

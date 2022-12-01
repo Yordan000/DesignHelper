@@ -1,35 +1,35 @@
 ﻿using DesignHelper.Contracts;
-using DesignHelper.Core.Models.CheckBoxValidation;
+using DesignHelper.Core.Exceptions;
 using DesignHelper.Core.Models.Project;
 using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Runtime.InteropServices;
 
 namespace DesignHelper.Services
 {
     public class ProjectService : IProjectService
     {
         private readonly IRepository repo;
+        private readonly IGuard guard;
 
 
-        public ProjectService(IRepository _repo)
+        public ProjectService(IRepository _repo, IGuard _guard)
         {
             repo = _repo;
+            guard = _guard;
         }
 
-        public async Task AddToFavourite(int projectId, string currentUserId)
+        public async Task AddToFavourites(int projectId, string currentUserId)
         {
             var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
 
-            if (project != null && project.IsActive != null)
+            if (project != null && project.AddToFavouritesId != null)
             {
-                throw new ArgumentException("House is already rented");
+                throw new ArgumentException("Project is already added to favourites!");
             }
 
-            //guard.AgainstNull(project, "House can not be found");
-            //project.RenterId = currentUserId;
+            guard.AgainstNull(project, "Project can't be found!");
+            project.AddToFavouritesId = currentUserId;
 
             await repo.SaveChangesAsync();
         }
@@ -149,9 +149,10 @@ namespace DesignHelper.Services
             return projectId;
         }
 
-        public Task<bool> Exists(int id)
+        public async Task<bool> Exists(int id)
         {
-            throw new NotImplementedException();
+            return await repo.AllReadonly<ProjectEntity>()
+                .AnyAsync(p => p.Id == id && p.IsActive);
         }
 
         public async Task<IEnumerable<ProjectServiceModel>> Favourites(string userId)
@@ -212,6 +213,22 @@ namespace DesignHelper.Services
             return (await repo.GetByIdAsync<ProjectEntity>(projectId)).AddToFavouritesId != null;
         }
 
+        public async Task<bool> IsFavouriteByUserWithId(int projectId, string currentUserId)
+        {
+            bool result = false;
+            var project = await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.IsActive)
+                .Where(p => p.Id == projectId)
+                .FirstOrDefaultAsync();
+
+            if (project != null && project.AddToFavouritesId == currentUserId)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
         public async Task<IEnumerable<ProjectHomeModel>> LastThreeProjects()
         {
             return await repo.AllReadonly<ProjectEntity>()
@@ -227,9 +244,35 @@ namespace DesignHelper.Services
                 .ToListAsync();
         }
 
-        public Task RemoveFromFavourite(int houseId)
+        public async Task<ProjectDetailsViewModel> ProjectDetailsById(int id)
         {
-            throw new NotImplementedException();
+            return await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.IsActive)
+                .Where(p => p.Id == id)
+                .Select(p => new ProjectDetailsViewModel()
+                {
+                    Area = p.Area,
+                    Author = p.Author,
+                    Award = p.Awards.Name,
+                    Category = p.Category.Name,
+                    Description = p.Description,
+                    Id = id,
+                    ImageUrl = p.ImageUrl,
+                    Location = p.Location,
+                    Rating = p.Rating,
+                    Title = p.Title,
+                    IsFavourite = p.AddToFavouritesId != null
+                })
+                .FirstAsync();
+        }
+
+        public async Task RemoveFromFavourite(int projectId)
+        {
+            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+            guard.AgainstNull(project, "Project can't be found!");
+            project.AddToFavouritesId = null;
+
+            await repo.SaveChangesAsync();
         }
     }
 }

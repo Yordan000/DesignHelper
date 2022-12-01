@@ -4,6 +4,7 @@ using DesignHelper.Core.Models.Project;
 using DesignHelper.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Humanizer.In;
 
 namespace DesignHelper.Controllers
 {
@@ -93,9 +94,17 @@ namespace DesignHelper.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            return View();
+            if ((await projectService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            var model = await projectService.ProjectDetailsById(id);
+
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -116,6 +125,43 @@ namespace DesignHelper.Controllers
         public async Task<IActionResult> Delete(ProjectDetailsViewModel project)
         {
             return RedirectToAction(nameof(All));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToFavourites(int id)
+        {
+            if ((await projectService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if (await projectService.IsFavourite(id))
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            await projectService.AddToFavourites(id, User.Id());
+
+            return RedirectToAction(nameof(Favourites));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromFavourites(int id)
+        {
+            if ((await projectService.Exists(id)) == false ||
+                (await projectService.IsFavourite(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if ((await projectService.IsFavouriteByUserWithId(id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await projectService.RemoveFromFavourite(id);
+
+            return RedirectToAction(nameof(Favourites));
         }
     }
 }

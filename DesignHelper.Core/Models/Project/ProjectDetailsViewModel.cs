@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace DesignHelper.Core.Models.Project
 {
-    public class ProjectDetailsViewModel
+    public class ProjectDetailsViewModel : ProjectServiceModel
     {
+        public string Description { get; set; } = null!;
+
+        public string Category { get; set; } = null!;
+
+        public string Award { get; set; } = null!;
+
+        public string ToolsUsed { get; set; } = null!;
     }
 }
