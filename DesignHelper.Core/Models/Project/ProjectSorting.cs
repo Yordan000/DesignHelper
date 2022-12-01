@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace DesignHelper.Core.Models.Project
 {
-    public enum ProjectCategorySorting
+    public enum ProjectSorting
     {
-        Architecture = 0,
-        InteriorDesign = 1,
-        Visualization = 2,
-        Photography = 3
+        Newest = 0,
+        Area = 1,
+        Rating = 2
     }
 }

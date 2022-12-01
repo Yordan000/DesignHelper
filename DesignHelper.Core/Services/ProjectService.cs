@@ -18,6 +18,80 @@ namespace DesignHelper.Services
             repo = _repo;
         }
 
+        public async Task<ProjectQueryServiceModel> All(string? category = null, string? award = null, string? searchTerm = null, ProjectSorting sorting = ProjectSorting.Newest, int currentPage = 1, int housesPerPage = 1)
+        {
+            var result = new ProjectQueryServiceModel();
+            var projects = repo.AllReadonly<ProjectEntity>()
+                .Where(h => h.IsActive);
+
+            if (string.IsNullOrEmpty(category) == false)
+            {
+                projects = projects
+                    .Where(h => h.Category.Name == category);
+            }
+
+            if (string.IsNullOrEmpty(award) == false)
+            {
+                projects = projects
+                    .Where(h => h.Awards.Name == award);
+            }
+
+            if (string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                projects = projects
+                    .Where(h => EF.Functions.Like(h.Title.ToLower(), searchTerm) ||
+                        EF.Functions.Like(h.Location.ToLower(), searchTerm) ||
+                        EF.Functions.Like(h.Description.ToLower(), searchTerm));
+            }
+
+            projects = sorting switch
+            {
+                ProjectSorting.Area => projects
+                    .OrderBy(p => p.Area),
+                ProjectSorting.Rating => projects
+                    .OrderByDescending(p => p.Rating),
+                _ => projects.OrderByDescending(h => h.Id)
+            };
+
+            result.Projects = await projects
+                .Skip((currentPage - 1) * housesPerPage)
+                .Take(housesPerPage)
+                .Select(p => new ProjectServiceModel()
+                {
+                    Area = p.Area,
+                    Location = p.Location,
+                    Author = p.Author,
+                    Id = p.Id,
+                    ImageUrl = p.ImageUrl,
+                    Rating = p.Rating,
+                    Title = p.Title
+
+                })
+                .ToListAsync();
+
+            result.TotalProjectsCount = await projects.CountAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> AllAwardsNames()
+        {
+            return await repo.AllReadonly<AwardEntity>()
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> AllCategoriesNames()
+        {
+            return await repo.AllReadonly<Category>()
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<int> Create(ProjectAddViewModel model)
         {
             var toolsUsed = new List<ProjectToolsUsed>();
@@ -33,8 +107,8 @@ namespace DesignHelper.Services
                 Author = model.Author,
                 ImageUrl = model.ImageUrl,
                 Rating = model.Rating,
-                
-        };
+
+            };
 
             await repo.AddAsync(project);
             await repo.SaveChangesAsync();

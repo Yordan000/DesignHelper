@@ -75,7 +75,10 @@
                 {
                     
                     <label class="list-group-item">
-                        <input type="checkbox" value="true"/>
+                        <input class="form-check-input" 
+                               type="checkbox" 
+                               value="@tools.Id"
+                               checked="@tools.IsChecked"/>
                         @tools.Name
                         
                     @*@Html.HiddenFor(t => tools.Id)

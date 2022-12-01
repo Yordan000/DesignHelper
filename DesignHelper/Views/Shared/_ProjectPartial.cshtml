@@ -1,0 +1,40 @@
+﻿@model ProjectServiceModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Project Image">
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Author: <b>@Model.Author</b></h6>
+            <h6>Area: <b>@Model.Area</b></h6>
+            <h6>Location: <b>@Model.Location</b></h6>
+            <h6>Rating: <b>@Model.Rating</b></h6>
+            
+            <br />
+            <a asp-controller="Project" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-success">Details</a>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                        <a asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id"
+               class="btn btn-warning">Edit</a>
+                    <a asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id"
+               class="btn btn-danger">Delete</a>
+                    <p></p>
+                @*@if (!Model.IsRented)
+                {
+                            <form class="input-group-sm" asp-controller="House"
+                  asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Rent" />
+                            </form>
+                }
+                else
+                {
+                            <form asp-controller="House" asp-action="Leave"
+                  asp-route-id="@Model.Id" method="post">
+                                <input class="btn btn-primary" type="submit" value="Leave" />
+                            </form>
+                }*@
+            }
+        </div>
+    </div>
+</div>

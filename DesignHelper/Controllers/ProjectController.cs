@@ -19,6 +19,19 @@ namespace DesignHelper.Controllers
 
         public async Task<IActionResult> All([FromQuery] AllProjectsQueryModel query)
         {
+            var result = await projectService.All(
+                query.Category,
+                query.Award,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllProjectsQueryModel.ProjectsPerPage);
+
+            query.TotalProjectsCount = result.TotalProjectsCount;
+            query.Categories = await projectService.AllCategoriesNames();
+            query.Awards = await projectService.AllAwardsNames();
+            query.Projects = result.Projects;
+
             return View(query);
         }
 
@@ -37,6 +50,7 @@ namespace DesignHelper.Controllers
             {
                 ProjectCategories = await projectService.GetAllCategories(),
                 ProjectAwards = await projectService.GetAllAwards(),
+                //ProjectTools = new List<CheckBoxItem>()
                 ProjectTools = toolsUsed.Select(t => new CheckBoxItem()
                 {
                     Id = t.Id,
@@ -56,6 +70,7 @@ namespace DesignHelper.Controllers
             {
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
+                
 
                 foreach (var item in model.ProjectTools)
                 {
