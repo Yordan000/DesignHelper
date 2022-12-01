@@ -4,6 +4,7 @@ using DesignHelper.Core.Models.Project;
 using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Runtime.InteropServices;
 
 namespace DesignHelper.Services
@@ -16,6 +17,21 @@ namespace DesignHelper.Services
         public ProjectService(IRepository _repo)
         {
             repo = _repo;
+        }
+
+        public async Task AddToFavourite(int projectId, string currentUserId)
+        {
+            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+
+            if (project != null && project.IsActive != null)
+            {
+                throw new ArgumentException("House is already rented");
+            }
+
+            //guard.AgainstNull(project, "House can not be found");
+            //project.RenterId = currentUserId;
+
+            await repo.SaveChangesAsync();
         }
 
         public async Task<ProjectQueryServiceModel> All(string? category = null, string? award = null, string? searchTerm = null, ProjectSorting sorting = ProjectSorting.Newest, int currentPage = 1, int housesPerPage = 1)
@@ -133,6 +149,28 @@ namespace DesignHelper.Services
             return projectId;
         }
 
+        public Task<bool> Exists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ProjectServiceModel>> Favourites(string userId)
+        {
+            return await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.IsActive)
+                .Select(p => new ProjectServiceModel()
+                {
+                    Id = p.Id,
+                    Rating = p.Rating,
+                    Area = p.Area,
+                    Author = p.Author,
+                    ImageUrl = p.ImageUrl,
+                    Location = p.Location,
+                    Title = p.Title
+                })
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<ProjectAwardsModel>> GetAllAwards()
         {
             return await repo.AllReadonly<AwardEntity>()
@@ -169,6 +207,11 @@ namespace DesignHelper.Services
                 .ToListAsync();
         }
 
+        public async Task<bool> IsFavourite(int projectId)
+        {
+            return (await repo.GetByIdAsync<ProjectEntity>(projectId)).AddToFavouritesId != null;
+        }
+
         public async Task<IEnumerable<ProjectHomeModel>> LastThreeProjects()
         {
             return await repo.AllReadonly<ProjectEntity>()
@@ -184,5 +227,9 @@ namespace DesignHelper.Services
                 .ToListAsync();
         }
 
+        public Task RemoveFromFavourite(int houseId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -16,5 +16,7 @@ namespace DesignHelper.Core.Models.Project
         public string Author { get; set; } = null!;
         public double Area { get; set; }
         public decimal Rating { get; set; }
+        public bool IsFavourite { get; set; }
+
     }
 }

@@ -22,7 +22,19 @@ namespace DesignHelper.Contracts
         Task<IEnumerable<string>> AllAwardsNames();
         Task<IEnumerable<ProjectHomeModel>> LastThreeProjects();
 
+        Task<IEnumerable<ProjectServiceModel>> Favourites(string userId); 
+        
+        Task<bool> IsFavourite(int projectId);
 
-     
+        //Task<bool> IsRentedByUserWithId(int projectId, string currentUserId);
+
+        Task AddToFavourite(int projectId, string currentUserId);
+
+        Task RemoveFromFavourite(int projectId);
+
+        Task<bool> Exists(int id);
+
+
+
     }
 }

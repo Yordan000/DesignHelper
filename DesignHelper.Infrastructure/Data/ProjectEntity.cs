@@ -1,4 +1,5 @@
 ﻿using DesignHelper.Infrastructure.Constrains;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -42,15 +43,18 @@ namespace DesignHelper.Infrastructure.Data
         [ForeignKey(nameof(AwardId))]
         public AwardEntity Awards { get; set; } = null!;
 
-        public List<ProjectToolsUsed> ProjectsToolsUsed { get; set; } = new List<ProjectToolsUsed>();
-
         [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
-
+        public List<ProjectToolsUsed> ProjectsToolsUsed { get; set; } = new List<ProjectToolsUsed>();
         public bool IsActive { get; set; } = true;
-      
+
+        public string? AddToFavouritesId { get; set; }
+
+        [ForeignKey(nameof(AddToFavouritesId))]
+        public IdentityUser? AddToFavourites { get; set; } 
+
     }
 }

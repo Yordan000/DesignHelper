@@ -1,7 +1,7 @@
 ﻿using DesignHelper.Contracts;
 using DesignHelper.Core.Models.CheckBoxValidation;
 using DesignHelper.Core.Models.Project;
-using DesignHelper.Infrastructure.Data;
+using DesignHelper.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +17,8 @@ namespace DesignHelper.Controllers
             projectService = _projectService;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] AllProjectsQueryModel query)
         {
             var result = await projectService.All(
@@ -37,7 +39,12 @@ namespace DesignHelper.Controllers
 
         public async Task<IActionResult> Favourites()
         {
-            return View(new AllProjectsQueryModel());
+            IEnumerable<ProjectServiceModel> favourites;
+            var userId = User.Id();
+
+            favourites = await projectService.Favourites(userId);
+
+            return View(favourites);
         }
 
         [HttpGet]
@@ -70,13 +77,13 @@ namespace DesignHelper.Controllers
             {
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
-                
+
 
                 foreach (var item in model.ProjectTools)
                 {
-                    
+
                 }
-                
+
 
                 return View(model);
             }
