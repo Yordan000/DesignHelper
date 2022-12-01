@@ -158,6 +158,7 @@ namespace DesignHelper.Services
         public async Task<IEnumerable<ProjectServiceModel>> Favourites(string userId)
         {
             return await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.AddToFavouritesId == userId)
                 .Where(p => p.IsActive)
                 .Select(p => new ProjectServiceModel()
                 {
@@ -167,7 +168,8 @@ namespace DesignHelper.Services
                     Author = p.Author,
                     ImageUrl = p.ImageUrl,
                     Location = p.Location,
-                    Title = p.Title
+                    Title = p.Title,
+                    IsFavourite = p.AddToFavouritesId != null,
                 })
                 .ToListAsync();
         }
