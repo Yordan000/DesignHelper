@@ -1,17 +1,18 @@
-﻿using DesignHelper.Core.Models.CheckBoxValidation;
+﻿using DesignHelper.Core.Contracts;
+using DesignHelper.Core.Models.CheckBoxValidation;
 using DesignHelper.Infrastructure.Constrains;
 using System.ComponentModel.DataAnnotations;
 
 namespace DesignHelper.Core.Models.Project
 {
-    public class ProjectAddViewModel
+    public class ProjectAddViewModel : IProjectModel
     {
         public int Id { get; set; }
 
         [Required]
         [MinLength(ConstrainValidations.TitleMinLength)]
         [MaxLength(ConstrainValidations.TitleMaxLength)]
-        public string Title { get; set; } = null!;
+        public string Title { get; init; } = null!;
 
         [Required]
         [MinLength(ConstrainValidations.DescriptionMinLength)]
@@ -20,12 +21,12 @@ namespace DesignHelper.Core.Models.Project
 
         [Required]
         [Display(Name = "Image URL")]
-        public string ImageUrl { get; set; } = null!;
+        public string ImageUrl { get; init; } = null!;
 
         [Required]
         [MinLength(ConstrainValidations.LocationMinLength)]
         [MaxLength(ConstrainValidations.LocationMaxLength)]
-        public string Location { get; set; } = null!;
+        public string Location { get; init; } = null!;
 
         [Required]
         [MinLength(ConstrainValidations.AuthorMinLength)]

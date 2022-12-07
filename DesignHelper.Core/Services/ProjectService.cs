@@ -287,7 +287,8 @@ namespace DesignHelper.Services
                 {
                     Id = p.Id,
                     ImageUrl = p.ImageUrl,
-                    Title = p.Title
+                    Title = p.Title,
+                    Location = p.Location
                 })
                 .Take(3)
                 .ToListAsync();

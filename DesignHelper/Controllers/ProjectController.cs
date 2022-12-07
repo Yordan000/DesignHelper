@@ -4,6 +4,7 @@ using DesignHelper.Core.Models.Project;
 using DesignHelper.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using DesignHelper.Core.Exceptions;
 
 namespace DesignHelper.Controllers
 {
@@ -90,11 +91,11 @@ namespace DesignHelper.Controllers
 
             int id = await projectService.Create(model);
 
-            return RedirectToAction(nameof(Details), new { id });
+            return RedirectToAction(nameof(Details), new { id = id , information = model.GetInformation()});
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id , string information)
         {
             if ((await projectService.Exists(id)) == false)
             {
@@ -102,6 +103,14 @@ namespace DesignHelper.Controllers
             }
 
             var model = await projectService.ProjectDetailsById(id);
+
+            if (information != model.GetInformation())
+            {
+                TempData["ErrorMessage"] = "Don't touch that!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
 
             return View(model);
         }
@@ -180,7 +189,7 @@ namespace DesignHelper.Controllers
 
             await projectService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(Details), new { model.Id });
+            return RedirectToAction(nameof(Details), new { id = model.Id , information = model.GetInformation() });
         }
 
         [HttpGet]
