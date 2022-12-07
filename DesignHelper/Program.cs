@@ -2,6 +2,7 @@ using DesignHelper.Extensions;
 using DesignHelper.Infrastructure.Data;
 using HouseRentingSystem.ModelBinders;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddControllersWithViews()
     .AddMvcOptions( options =>
     {
+        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
     });
 
@@ -56,6 +58,15 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 app.MapRazorPages();
 
 app.Run();

@@ -4,7 +4,6 @@ using DesignHelper.Core.Models.Project;
 using DesignHelper.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Humanizer.In;
 
 namespace DesignHelper.Controllers
 {
