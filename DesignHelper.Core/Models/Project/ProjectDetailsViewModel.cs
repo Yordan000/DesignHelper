@@ -14,6 +14,6 @@ namespace DesignHelper.Core.Models.Project
 
         public string Award { get; set; } = null!;
 
-        public string ToolsUsed { get; set; } = null!;
+        public List<string> ToolsUsed { get; set; } = null!;
     }
 }

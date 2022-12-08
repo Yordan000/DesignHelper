@@ -21,11 +21,10 @@
             <p>@Model.Description</p>
             <p>Category: <b>@Model.Category</b></p>
             <p>Awards: <b>@Model.Award</b></p>
-            @*<p>Tools used: <b>
-                @foreach (var item in Model.ToolsUsed)
-                    {
-                        @item
-                    }</b></p>*@
+            <p>Tools used: @foreach (var item in Model.ToolsUsed)
+            {
+                    <b>@item, </b>
+            }</p>
             <p><i>(@(Model.IsFavourite ? "Added to Favourites" : "Not added to Favourites"))</i></p>
             <div class="form-inline">
                 @if (this.User.Identity.IsAuthenticated)

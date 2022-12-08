@@ -299,6 +299,7 @@ namespace DesignHelper.Services
             return await repo.AllReadonly<ProjectEntity>()
                 .Where(p => p.IsActive)
                 .Where(p => p.Id == id)
+                .Include(p => p.ProjectsToolsUsed)
                 .Select(p => new ProjectDetailsViewModel()
                 {
                     Area = p.Area,
@@ -311,7 +312,8 @@ namespace DesignHelper.Services
                     Location = p.Location,
                     Rating = p.Rating,
                     Title = p.Title,
-                    IsFavourite = p.AddToFavouritesId != null
+                    IsFavourite = p.AddToFavouritesId != null,
+                    ToolsUsed = p.ProjectsToolsUsed.Select(p => p.ToolsUsed.Name).ToList()
                 })
                 .FirstAsync();
         }
