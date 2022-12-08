@@ -4,7 +4,7 @@
     {
         public const string AreaName = "Admin";
 
-        public const string AdminRolleName = "Administrator";
+        public const string AdminRoleName = "Administrator";
 
         public const string AdminEmail = "yordanadmin@gmail.com";
     }

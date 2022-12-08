@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DesignHelper.Areas.Admin.Controllers
+namespace DesignHelper.Areas.User.Controllers
 {
-    public class AdminController : BaseController
+    public class UserController : BaseController
     {
         public IActionResult Index()
         {

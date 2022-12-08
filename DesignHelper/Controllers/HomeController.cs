@@ -1,7 +1,6 @@
 ﻿using DesignHelper.Contracts;
-using DesignHelper.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using static DesignHelper.Areas.Admin.Constrains.AdminConstrains;
 
 namespace DesignHelper.Controllers
 {
@@ -15,6 +14,11 @@ namespace DesignHelper.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole(AdminRoleName))
+            {
+                return RedirectToAction("Index", "Admin" , new { area = "Admin" });
+            }
+
             var model = await projectService.LastThreeProjects();
 
             return View(model);

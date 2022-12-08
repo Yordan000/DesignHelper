@@ -57,23 +57,21 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "Project Details",
-      pattern: "/Project/Details/{id}/{information}",
-      defaults: new { Controller = "Project", Action = "Details" }
-        );
+      name: "Areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
-    endpoints.MapDefaultControllerRoute();
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+    endpoints.MapControllerRoute(
+        name: "Project Details",
+      pattern: "/Project/Details/{id}/{information}");
+
     endpoints.MapRazorPages();
 });
 

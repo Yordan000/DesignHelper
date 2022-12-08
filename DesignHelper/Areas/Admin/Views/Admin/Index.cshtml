@@ -1,1 +1,24 @@
-﻿<p>This is Administrators home page !</p>
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="mt-4 p-5 bg-light text-center">
+    <h2 class="display-4">Hello, Admin!</h2>
+    <p class="lead mb-1 mt-3">
+        This is your administrator area - you can <b>read</b>, <b>create</b>,
+        <b>delete</b> and <b>edit</b> projects.
+    </p>
+    <hr class="my-4">
+    <a asp-area="" asp-controller="Project" asp-action="All"
+       class="btn btn-primary btn-lg">All Projects</a>
+    <a asp-area="" asp-controller="Project" asp-action="Add"
+       class="btn btn-primary btn-lg">Add Project</a>
+    <span>  |   </span>
+    <a asp-area="Admin" asp-controller="Project" asp-action="Favourites"
+       class="btn btn-primary btn-lg">Favourites</a>
+    <span>  |   </span>
+    <a asp-area="Admin" asp-controller="Project" asp-action="All"
+       class="btn btn-primary btn-lg">All Rents</a>
+    <a asp-area="Admin" asp-controller="Users" asp-action="All"
+       class="btn btn-primary btn-lg">All Users</a>
+</div>
