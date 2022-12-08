@@ -1,0 +1,36 @@
+﻿@model MyProjectsViewModel
+
+@{
+    ViewBag.Title = "My Projects";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<h4>My Added Projects</h4>
+
+@if (!Model.AddedProjects.Any())
+{
+        <h2 class="text-center">You have no added projects yet!</h2>
+}
+
+<div class="row">
+    @foreach (var project in Model.AddedProjects)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_ProjectPartial.cshtml", project)
+    }
+</div>
+
+<h4>My Favourite Projectss</h4>
+
+@if (!Model.FavouriteProjects.Any())
+{
+        <h2 class="text-center">You have no favourite projects yet!</h2>
+}
+
+<div class="row">
+    @foreach (var project in Model.FavouriteProjects)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_ProjectPartial.cshtml", project)
+    }
+</div>

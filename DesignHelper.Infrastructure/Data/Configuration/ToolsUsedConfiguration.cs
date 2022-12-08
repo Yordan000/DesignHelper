@@ -53,6 +53,21 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                 {
                     Id = 8,
                     Name = "Corona"
+                },
+                new ToolUsed()
+                {
+                    Id = 9,
+                    Name = "Canon 6D"
+                },
+                new ToolUsed()
+                {
+                    Id = 10,
+                    Name = "Sony Alpha 7Riii"
+                },
+                new ToolUsed()
+                {
+                    Id = 11,
+                    Name = "Nikon"
                 }
             };
 

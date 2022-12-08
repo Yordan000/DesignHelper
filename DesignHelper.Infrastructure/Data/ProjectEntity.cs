@@ -54,7 +54,7 @@ namespace DesignHelper.Infrastructure.Data
         public string? AddToFavouritesId { get; set; }
 
         [ForeignKey(nameof(AddToFavouritesId))]
-        public IdentityUser? AddToFavourites { get; set; } 
+        public User? AddToFavourites { get; set; } 
 
     }
 }

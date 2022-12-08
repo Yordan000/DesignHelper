@@ -37,5 +37,13 @@
         //ToolsUsed
         public const int ToolsUsedNameMinLength = 3;
         public const int ToolsUsedNameMaxLength = 30;
+
+        //UserFirstName
+        public const int UserFirstNameMinLength = 1;
+        public const int UserFirstNameMaxLength = 30;
+
+        //UserLastName
+        public const int UserLastNameMinLength = 1;
+        public const int UserLastNameMaxLength = 30;
     }
 }

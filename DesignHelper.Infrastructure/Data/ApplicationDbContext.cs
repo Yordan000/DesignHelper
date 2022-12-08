@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DesignHelper.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext<User , IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -18,9 +18,12 @@ namespace DesignHelper.Infrastructure.Data
             builder.Entity<ProjectToolsUsed>()
                 .HasKey(p => new { p.ProjectsEntityId, p.ToolsUsedId });
 
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new AwardsConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ToolsUsedConfiguration());
-            builder.ApplyConfiguration(new AwardsConfiguration());
+            builder.ApplyConfiguration(new ProjectsConfiguration());
+            builder.ApplyConfiguration(new ProjectsToolsUsedConfiguration());
 
             base.OnModelCreating(builder);
         }
