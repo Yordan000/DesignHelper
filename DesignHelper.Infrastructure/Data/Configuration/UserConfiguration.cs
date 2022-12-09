@@ -13,6 +13,9 @@ namespace DesignHelper.Infrastructure.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(p => p.IsActive)
+                .HasDefaultValue(true);
+
             builder.HasData(CreateUsers());
         }
         private List<User> CreateUsers()

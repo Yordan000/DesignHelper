@@ -13,5 +13,13 @@
         //Registration Password
         public const int PasswordMinLength = 5;
         public const int PasswordMaxLength = 20;
+
+        //Registration FirstName
+        public const int FirsNameMinLength = 1;
+        public const int FirstNameMaxLength = 30;
+
+        //Registration LastName
+        public const int LastNameMinLength = 1;
+        public const int LastNameMaxLength = 30;
     }
 }

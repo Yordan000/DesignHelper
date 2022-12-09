@@ -16,15 +16,15 @@
         <div class="card col-8 border-0">
             <p style="font-size:25px;"><u>@Model.Title</u></p>
             <p>Author: <b>@Model.Author</b></p>
-            <p>Area: <b>@Model.Area</b></p>
+            <p>Area: <b>@Model.Area m2</b></p>
             <p>Located in: <b>@Model.Location</b></p>
-            <p>@Model.Description</p>
             <p>Category: <b>@Model.Category</b></p>
             <p>Awards: <b>@Model.Award</b></p>
             <p>Tools used: @foreach (var item in Model.ToolsUsed)
-            {
-                    <b>@item, </b>
-            }</p>
+                {
+                        <b>@item, </b>
+                }</p>
+            <p>@Model.Description</p>
             <p><i>(@(Model.IsFavourite ? "Added to Favourites" : "Not added to Favourites"))</i></p>
             <div class="form-inline">
                 @if (this.User.Identity.IsAuthenticated)

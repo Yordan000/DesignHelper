@@ -10,6 +10,16 @@ namespace DesignHelper.Models
         [MaxLength(ViewModelsValidations.UserNameMaxLength)]
         public string UserName { get; set; } = null!;
 
+        //[Required]
+        //[MinLength(ViewModelsValidations.FirsNameMinLength)]
+        //[MaxLength(ViewModelsValidations.FirstNameMaxLength)]
+        //public string FirstName { get; set; } = null!;
+
+        //[Required]
+        //[MinLength(ViewModelsValidations.LastNameMinLength)]
+        //[MaxLength(ViewModelsValidations.LastNameMaxLength)]
+        //public string LastName { get; set; } = null!;
+
         [Required]
         [MinLength(ViewModelsValidations.EmailMinLength)]
         [MaxLength(ViewModelsValidations.EmailMaxLength)]

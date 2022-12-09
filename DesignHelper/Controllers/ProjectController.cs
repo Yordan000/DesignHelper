@@ -57,7 +57,6 @@ namespace DesignHelper.Controllers
             {
                 ProjectCategories = await projectService.GetAllCategories(),
                 ProjectAwards = await projectService.GetAllAwards(),
-                //ProjectTools = new List<CheckBoxItem>()
                 ProjectTools = toolsUsed.Select(t => new ProjectToolsUsedModel()
                 {
                     Id = t.Id,
@@ -77,9 +76,7 @@ namespace DesignHelper.Controllers
             {
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
-
                 var toolsChecked = model.ProjectTools.Select(t => t.IsChecked = true).ToList();
-
 
                 return View(model);
             }
@@ -122,6 +119,8 @@ namespace DesignHelper.Controllers
             var categoryId = await projectService.GetProjectCategoryId(id);
             var awardId = await projectService.GetProjectAwardId(id);
 
+            //TODO: PROJECT TOOLS USED implement
+
             var model = new ProjectAddViewModel()
             {
                 CategoryId = categoryId,
@@ -134,7 +133,9 @@ namespace DesignHelper.Controllers
                 Rating = project.Rating,
                 Title = project.Title,
                 ProjectCategories = await projectService.GetAllCategories(),
-                ProjectAwards = await projectService.GetAllAwards()
+                ProjectAwards = await projectService.GetAllAwards(),
+                
+                
             };
 
             return View(model);

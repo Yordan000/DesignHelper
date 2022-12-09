@@ -1,17 +1,15 @@
-﻿@using DesignHelper.Infrastructure.Data
-@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<User> SignInManager;
+﻿@inject SignInManager<User> SignInManager;
 @inject UserManager<User> UserManager;
 
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-            <li class="nav-item">
-                    <li class="nav-item">
+        
+        <li class="nav-item">
             <a  class="nav-link text-dark" asp-area="User" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
         </li>
+            <li class="nav-item">
                 <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-id="@UserManager.GetUserId(User)">
                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                 </form>
@@ -26,6 +24,7 @@
                 <a class="nav-link text-dark" asp-controller="User" asp-action="Login">Login</a>
             </li>
     }
+</ul>  
 @*</ul><ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {

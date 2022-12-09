@@ -3,6 +3,7 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,17 +11,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DesignHelper.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly SignInManager<Infrastructure.Data.User> _signInManager;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger , UserManager<IdentityUser> userManager)
+        public LoginModel(SignInManager<Infrastructure.Data.User> signInManager)
         {
             _signInManager = signInManager;
-            _logger = logger;
-            _userManager = userManager;
         }
 
         /// <summary>
@@ -109,29 +107,7 @@ namespace DesignHelper.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByEmailAsync(Input.Email);
-
-                    if (user != null && await _userManager.IsInRoleAsync(user, "Administrator"))
-                    {
-                        return RedirectToAction("Index", "Admin", new { area = "Admin" });
-                    }
-
-                    if (user != null && await _userManager.IsInRoleAsync(user, "User"))
-                    {
-                        return RedirectToAction("Index", "User", new { area = "User" });
-                    }
-
-                    _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
                 }
                 else
                 {
