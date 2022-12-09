@@ -1,5 +1,4 @@
 ﻿using DesignHelper.Core.Contracts;
-using DesignHelper.Core.Models.CheckBoxValidation;
 using DesignHelper.Infrastructure.Constrains;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,7 +49,9 @@ namespace DesignHelper.Core.Models.Project
         //public int ToolsId { get; set; }
         //public IEnumerable<ProjectToolsUsedModel> ProjectTools { get; set; } = new List<ProjectToolsUsedModel>();
 
-        public List<CheckBoxItem> ProjectTools { get; set; } = new List<CheckBoxItem>();
+        public List<ProjectToolsUsedModel> ProjectTools { get; set; } = new List<ProjectToolsUsedModel>();
+
+        public List<int> ToolsUsedChecked { get; set; } = new List<int>();
 
         [Display(Name = "Category")]
         public int CategoryId { get; set; }

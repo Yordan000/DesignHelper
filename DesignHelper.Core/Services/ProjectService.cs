@@ -122,7 +122,7 @@ namespace DesignHelper.Services
 
         public async Task<int> Create(ProjectAddViewModel model)
         {
-            var toolsUsed = new List<ProjectToolsUsed>();
+            var projectWithTools = new List<ProjectToolsUsed>(); 
 
             var project = new ProjectEntity()
             {
@@ -135,7 +135,6 @@ namespace DesignHelper.Services
                 Author = model.Author,
                 ImageUrl = model.ImageUrl,
                 Rating = model.Rating,
-
             };
 
             await repo.AddAsync(project);
@@ -143,16 +142,13 @@ namespace DesignHelper.Services
 
             int projectId = project.Id;
 
-            foreach (var item in model.ProjectTools)
+            foreach (var tool in model.ToolsUsedChecked)
             {
-                if (item.IsChecked == true)
+                project.ProjectsToolsUsed.Add(new ProjectToolsUsed()
                 {
-                    project.ProjectsToolsUsed.Add(new ProjectToolsUsed()
-                    {
-                        ToolsUsedId = item.Id
-                    });
-                }
-
+                    ProjectsEntityId = projectId,
+                    ToolsUsedId = tool
+                });
             }
 
             repo.Update(project);

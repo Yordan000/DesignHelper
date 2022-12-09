@@ -1,5 +1,4 @@
 ﻿using DesignHelper.Contracts;
-using DesignHelper.Core.Models.CheckBoxValidation;
 using DesignHelper.Core.Models.Project;
 using DesignHelper.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +58,7 @@ namespace DesignHelper.Controllers
                 ProjectCategories = await projectService.GetAllCategories(),
                 ProjectAwards = await projectService.GetAllAwards(),
                 //ProjectTools = new List<CheckBoxItem>()
-                ProjectTools = toolsUsed.Select(t => new CheckBoxItem()
+                ProjectTools = toolsUsed.Select(t => new ProjectToolsUsedModel()
                 {
                     Id = t.Id,
                     Name = t.Name,
@@ -79,11 +78,7 @@ namespace DesignHelper.Controllers
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
 
-
-                foreach (var item in model.ProjectTools)
-                {
-
-                }
+                var toolsChecked = model.ProjectTools.Select(t => t.IsChecked = true).ToList();
 
 
                 return View(model);
