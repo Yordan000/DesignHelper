@@ -11,26 +11,26 @@
             <h6>Rating: <b>@Model.Rating</b></h6>
             
             <br />
-            <a asp-controller="Project" asp-action="Details" asp-route-id="@Model.Id" 
+            <a asp-area="" asp-controller="Project" asp-action="Details" asp-route-id="@Model.Id" 
             asp-route-information="@Model.GetInformation()" class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
-                        <a asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id"
+                            <a asp-area="" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-warning">Edit</a>
-                    <a asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id"
+                        <a asp-area="" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id"
                class="btn btn-danger">Delete</a>
                     <p></p>
                
                 @if (!Model.IsFavourite)
                 {
-                            <form class="input-group-sm" asp-controller="Project"
+                                    <form class="input-group-sm" asp-area="" asp-controller="Project"
                   asp-action="AddToFavourites" asp-route-id="@Model.Id" method="post">
                                 <input class="btn btn-primary" type="submit" value="Add to Favourites" />
                             </form>
                 }
                 else
                 {
-                            <form asp-controller="Project" asp-action="RemoveFromFavourites"
+                                    <form asp-area="" asp-controller="Project" asp-action="RemoveFromFavourites"
                   asp-route-id="@Model.Id" method="post">
                                 <input class="btn btn-primary" type="submit" value="Remove from Favourites" />
                             </form>

@@ -1,5 +1,7 @@
 ﻿using DesignHelper.Contracts;
+using DesignHelper.Core.Contracts.Admin;
 using DesignHelper.Core.Exceptions;
+using DesignHelper.Core.Services.Admin;
 using DesignHelper.Infrastructure.Data.Common;
 using DesignHelper.Services;
 using System;
@@ -13,6 +15,7 @@ namespace DesignHelper.Extensions
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IGuard, Guard>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

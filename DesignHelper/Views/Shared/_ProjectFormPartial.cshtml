@@ -59,7 +59,22 @@
                 </select>
                 <span asp-validation-for="AwardId" class="small text-danger"></span>
             </div>
-
+            <label class="form-label">Tools used</label>
+            @foreach (var tools in Model.ProjectTools)
+            {
+                    <div class="form-group">
+                    <div class="form-check">
+                               <label class="list-group-item">
+                        <input class="form-check-input"
+                           type="checkbox"
+                           value="@tools.Id"
+                           name="ToolsUsedChecked"
+                           checked="@tools.IsChecked">
+                            @tools.Name
+                               </label>
+                    </div>
+                    </div>
+            }
             <div class="text-center">
                 <input class="btn btn-primary mt-3" type="submit" value="Save" />
             </div>

@@ -4,6 +4,7 @@ using DesignHelper.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DesignHelper.Core.Exceptions;
+using static DesignHelper.Areas.Admin.Constrains.AdminConstrains;
 
 namespace DesignHelper.Controllers
 {
@@ -39,6 +40,11 @@ namespace DesignHelper.Controllers
 
         public async Task<IActionResult> Favourites()
         {
+            if (User.IsInRole(AdminRoleName))
+            {
+                return RedirectToAction("Favourites", "Project", new { area = AreaName });
+            }
+
             IEnumerable<ProjectServiceModel> favourites;
             var userId = User.Id();
 
