@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesignHelper.Infrastructure.Data.Configuration
 {
@@ -58,16 +53,16 @@ namespace DesignHelper.Infrastructure.Data.Configuration
             user = new User()
             {
                 Id = "5faa7c98-430f-4036-928f-f5210e8fbeea",
-                UserName = "guest@gmail.com",
-                NormalizedUserName = "GUEST@GMAIL.COM",
-                Email = "guest@gmail.com",
-                NormalizedEmail = "GUEST@GMAIL.COM",
+                UserName = "moderator@gmail.com",
+                NormalizedUserName = "MODERATOR@GMAIL.COM",
+                Email = "moderator@gmail.com",
+                NormalizedEmail = "MODERATOR@GMAIL.COM",
                 FirstName = "Yordan",
-                LastName = "Guest",
+                LastName = "Moderator",
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
-            user.PasswordHash = hasher.HashPassword(user, "Guest123");
+            user.PasswordHash = hasher.HashPassword(user, "Moderator123");
 
             users.Add(user);
 

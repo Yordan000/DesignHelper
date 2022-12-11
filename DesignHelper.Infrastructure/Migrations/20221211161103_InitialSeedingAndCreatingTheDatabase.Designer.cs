@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesignHelper.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221208220522_InitialMigrationWithSeedingDatabase")]
-    partial class InitialMigrationWithSeedingDatabase
+    [Migration("20221211161103_InitialSeedingAndCreatingTheDatabase")]
+    partial class InitialSeedingAndCreatingTheDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -569,7 +569,9 @@ namespace DesignHelper.Infrastructure.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -626,7 +628,7 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b7312257-f632-4bd3-809f-7b0453bf7b3b",
+                            ConcurrencyStamp = "a6d83be6-a45f-4861-bce9-cd7fe8d55455",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -635,8 +637,9 @@ namespace DesignHelper.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMK3BNJMtlc2Wi6d4o/OB3udjcDg0LHpdAVgCSlspssiSgYpHq43/AWF2yORBAA5EA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKcfuURWVb1SfAE+A3J7ufRDixRw0uGBGzrtI6ll8cbO1QUho+osXYJjeTdrnSQ2Sg==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "8ca8023f-0abe-438e-8036-326e8238ab98",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -644,7 +647,7 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = "3c128b69-c44c-4c7d-9f7a-9921c86bbf29",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b582c5dc-75e0-482d-89ff-57cb9101d0a9",
+                            ConcurrencyStamp = "d4f9f832-23e3-4e52-9ad2-ca1a3e4bb1ef",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -653,8 +656,9 @@ namespace DesignHelper.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDg7bTAauQF66WtEk1fNNlP6uacX0esM7LZvIykIwxaQJcWRrgeUkfTBuxOCeLZlNQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHNX/JM34zxWkbQiAVXJo9anMLsnPJa6TyGykK9hdamJHX/9vfkEccT6cp4aRfZv3w==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "47968690-6c08-4483-9f84-e278a8981fbb",
                             TwoFactorEnabled = false,
                             UserName = "user@gmail.com"
                         },
@@ -662,19 +666,20 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = "5faa7c98-430f-4036-928f-f5210e8fbeea",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6acca0e5-2b85-43f1-adc4-d9971677b32f",
-                            Email = "guest@gmail.com",
+                            ConcurrencyStamp = "ef554900-303f-4fa7-ae41-cd018022b31c",
+                            Email = "moderator@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
                             IsActive = true,
-                            LastName = "Guest",
+                            LastName = "Moderator",
                             LockoutEnabled = false,
-                            NormalizedEmail = "GUEST@GMAIL.COM",
-                            NormalizedUserName = "GUEST@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEd4j0JNUzIgD4rE/m/0O/b61SGPndbEoo89C7mJksdrgtXOymIHAFHvjk7CHC+uUQ==",
+                            NormalizedEmail = "MODERATOR@GMAIL.COM",
+                            NormalizedUserName = "MODERATOR@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECwuxTGjoBWBJxGrIJ3qtM6dOLdYolFoCaWhPJL4GoSDRj06kYmp1nVio7pB2zVAhA==",
                             PhoneNumberConfirmed = false,
+                            SecurityStamp = "dec94dff-0d93-447f-9fe4-922cb758aa9f",
                             TwoFactorEnabled = false,
-                            UserName = "guest@gmail.com"
+                            UserName = "moderator@gmail.com"
                         });
                 });
 

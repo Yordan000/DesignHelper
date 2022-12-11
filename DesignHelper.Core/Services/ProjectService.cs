@@ -108,6 +108,14 @@ namespace DesignHelper.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<string>> AllToolsUsedNames()
+        {
+            return await repo.AllReadonly<ToolUsed>()
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<bool> AwardExists(int awardId)
         {
             return await repo.AllReadonly<AwardEntity>()
@@ -120,10 +128,14 @@ namespace DesignHelper.Services
                 .AnyAsync(c => c.Id == categoryId);
         }
 
+        public async Task<bool> ToolsUsedExists(int toolsId)
+        {
+            return await repo.AllReadonly<ToolUsed>()
+                .AnyAsync(c => c.Id == toolsId);
+        }
+
         public async Task<int> Create(ProjectAddViewModel model)
         {
-            var projectWithTools = new List<ProjectToolsUsed>(); 
-
             var project = new ProjectEntity()
             {
                 Title = model.Title,
@@ -167,7 +179,9 @@ namespace DesignHelper.Services
 
         public async Task Edit(int projectId, ProjectAddViewModel model)
         {
-            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+            //var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+
+            var project = await repo.AllReadonly<ProjectEntity>().Include(p => p.ProjectsToolsUsed).FirstOrDefaultAsync(p => p.Id == projectId);
 
             project.Description = model.Description;
             project.ImageUrl = model.ImageUrl;
@@ -178,6 +192,17 @@ namespace DesignHelper.Services
             project.Area = model.Area;
             project.Rating = model.Rating;
             project.AwardId = model.AwardId;
+
+            //await repo.DeleteAsync<ProjectToolsUsed>(projectId);
+
+            foreach (var tool in model.ToolsUsedChecked)
+            {
+                project.ProjectsToolsUsed.Add(new ProjectToolsUsed()
+                {
+                    ProjectsEntityId = projectId,
+                    ToolsUsedId = tool
+                });
+            }
 
             await repo.SaveChangesAsync();
         }
@@ -252,6 +277,15 @@ namespace DesignHelper.Services
         {
             return (await repo.GetByIdAsync<ProjectEntity>(projectId)).CategoryId;
         }
+        public async Task<List<int>> GetProjectToolsId(int projectId)
+        {
+            var result = await repo.AllReadonly<ProjectToolsUsed>()
+                .Where(p => p.ProjectsEntityId == projectId)
+                .Select(t => t.ToolsUsedId)
+                .ToListAsync();
+
+            return result;
+        }
 
         public async Task<bool> IsFavourite(int projectId)
         {
@@ -322,5 +356,6 @@ namespace DesignHelper.Services
 
             await repo.SaveChangesAsync();
         }
+
     }
 }

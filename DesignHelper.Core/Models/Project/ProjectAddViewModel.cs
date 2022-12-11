@@ -45,10 +45,6 @@ namespace DesignHelper.Core.Models.Project
 
         public IEnumerable<ProjectAwardsModel> ProjectAwards { get; set; } = new List<ProjectAwardsModel>();
 
-        //[Display(Name = "Tools used")]
-        //public int ToolsId { get; set; }
-        //public IEnumerable<ProjectToolsUsedModel> ProjectTools { get; set; } = new List<ProjectToolsUsedModel>();
-
         public List<ProjectToolsUsedModel> ProjectTools { get; set; } = new List<ProjectToolsUsedModel>();
 
         public List<int> ToolsUsedChecked { get; set; } = new List<int>();

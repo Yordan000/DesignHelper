@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DesignHelper.Infrastructure.Migrations
 {
-    public partial class InitialMigrationWithSeedingDatabase : Migration
+    public partial class InitialSeedingAndCreatingTheDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace DesignHelper.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -283,9 +283,9 @@ namespace DesignHelper.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "IsActive", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3c128b69-c44c-4c7d-9f7a-9921c86bbf29", 0, "b582c5dc-75e0-482d-89ff-57cb9101d0a9", "user@gmail.com", false, "Yordan", true, "User", false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAEAACcQAAAAEDg7bTAauQF66WtEk1fNNlP6uacX0esM7LZvIykIwxaQJcWRrgeUkfTBuxOCeLZlNQ==", null, false, null, false, "user@gmail.com" },
-                    { "5faa7c98-430f-4036-928f-f5210e8fbeea", 0, "6acca0e5-2b85-43f1-adc4-d9971677b32f", "guest@gmail.com", false, "Yordan", true, "Guest", false, null, "GUEST@GMAIL.COM", "GUEST@GMAIL.COM", "AQAAAAEAACcQAAAAEEd4j0JNUzIgD4rE/m/0O/b61SGPndbEoo89C7mJksdrgtXOymIHAFHvjk7CHC+uUQ==", null, false, null, false, "guest@gmail.com" },
-                    { "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07", 0, "b7312257-f632-4bd3-809f-7b0453bf7b3b", "admin@gmail.com", false, "Yordan", true, "Admin", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEMK3BNJMtlc2Wi6d4o/OB3udjcDg0LHpdAVgCSlspssiSgYpHq43/AWF2yORBAA5EA==", null, false, null, false, "admin@gmail.com" }
+                    { "3c128b69-c44c-4c7d-9f7a-9921c86bbf29", 0, "d4f9f832-23e3-4e52-9ad2-ca1a3e4bb1ef", "user@gmail.com", false, "Yordan", true, "User", false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAEAACcQAAAAEHNX/JM34zxWkbQiAVXJo9anMLsnPJa6TyGykK9hdamJHX/9vfkEccT6cp4aRfZv3w==", null, false, "47968690-6c08-4483-9f84-e278a8981fbb", false, "user@gmail.com" },
+                    { "5faa7c98-430f-4036-928f-f5210e8fbeea", 0, "ef554900-303f-4fa7-ae41-cd018022b31c", "moderator@gmail.com", false, "Yordan", true, "Moderator", false, null, "MODERATOR@GMAIL.COM", "MODERATOR@GMAIL.COM", "AQAAAAEAACcQAAAAECwuxTGjoBWBJxGrIJ3qtM6dOLdYolFoCaWhPJL4GoSDRj06kYmp1nVio7pB2zVAhA==", null, false, "dec94dff-0d93-447f-9fe4-922cb758aa9f", false, "moderator@gmail.com" },
+                    { "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07", 0, "a6d83be6-a45f-4861-bce9-cd7fe8d55455", "admin@gmail.com", false, "Yordan", true, "Admin", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEKcfuURWVb1SfAE+A3J7ufRDixRw0uGBGzrtI6ll8cbO1QUho+osXYJjeTdrnSQ2Sg==", null, false, "8ca8023f-0abe-438e-8036-326e8238ab98", false, "admin@gmail.com" }
                 });
 
             migrationBuilder.InsertData(

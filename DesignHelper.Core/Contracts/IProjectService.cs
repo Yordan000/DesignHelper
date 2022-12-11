@@ -25,6 +25,8 @@ namespace DesignHelper.Contracts
 
         Task<IEnumerable<string>> AllAwardsNames();
 
+        Task<IEnumerable<string>> AllToolsUsedNames();
+
         Task<IEnumerable<ProjectHomeModel>> LastThreeProjects();
 
         Task<IEnumerable<ProjectServiceModel>> Favourites(string userId); 
@@ -52,6 +54,10 @@ namespace DesignHelper.Contracts
         Task<int> GetProjectAwardId(int projectId);
 
         Task<bool> AwardExists(int awardId);
+
+        Task<List<int>> GetProjectToolsId(int projectId);
+
+        Task<bool> ToolsUsedExists(int toolsId);
 
     }
 }

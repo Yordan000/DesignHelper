@@ -33,11 +33,16 @@ namespace DesignHelper.Core.Services.Admin
             return result;
         }
 
-        public async Task<string> UserFullName(string userId)
+        public string UserFullName(string userId)
         {
-            var user = await repo.GetByIdAsync<User>(userId);
+            var user =  repo.AllReadonly<User>().First(u => u.Id == userId);
 
-            return $"{user?.FirstName} {user?.LastName}".Trim();
+            if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
+            {
+                return null;
+            }
+
+            return $"{user?.FirstName} {user?.LastName}".TrimEnd();
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DesignHelper.Core.Exceptions;
 using static DesignHelper.Areas.Admin.Constrains.AdminConstrains;
+using DesignHelper.Infrastructure.Data;
 
 namespace DesignHelper.Controllers
 {
@@ -58,7 +59,6 @@ namespace DesignHelper.Controllers
         {
             var toolsUsed = await projectService.GetAllTools();
 
-
             var model = new ProjectAddViewModel()
             {
                 ProjectCategories = await projectService.GetAllCategories(),
@@ -89,11 +89,11 @@ namespace DesignHelper.Controllers
 
             int id = await projectService.Create(model);
 
-            return RedirectToAction(nameof(Details), new { id = id , information = model.GetInformation()});
+            return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id , string information)
+        public async Task<IActionResult> Details(int id, string information)
         {
             if ((await projectService.Exists(id)) == false)
             {
@@ -124,8 +124,9 @@ namespace DesignHelper.Controllers
             var project = await projectService.ProjectDetailsById(id);
             var categoryId = await projectService.GetProjectCategoryId(id);
             var awardId = await projectService.GetProjectAwardId(id);
+            //var toolsId = await projectService.GetProjectToolsId(id);
 
-            //TODO: PROJECT TOOLS USED implement
+            var toolsUsed = await projectService.GetAllTools();
 
             var model = new ProjectAddViewModel()
             {
@@ -140,8 +141,13 @@ namespace DesignHelper.Controllers
                 Title = project.Title,
                 ProjectCategories = await projectService.GetAllCategories(),
                 ProjectAwards = await projectService.GetAllAwards(),
-                
-                
+                ProjectTools = toolsUsed.Select(t => new ProjectToolsUsedModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    IsChecked = false
+                })
+                .ToList()
             };
 
             return View(model);
@@ -150,17 +156,27 @@ namespace DesignHelper.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProjectAddViewModel model)
         {
+            var toolsUsed = await projectService.GetAllTools();
+
             if (id != model.Id)
             {
-                
+
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
             if ((await projectService.Exists(model.Id)) == false)
             {
+
                 ModelState.AddModelError("", "Project doesn't exist");
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
+                model.ProjectTools = toolsUsed.Select(t => new ProjectToolsUsedModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    IsChecked = false
+                })
+                .ToList();
 
                 return View(model);
             }
@@ -181,17 +197,43 @@ namespace DesignHelper.Controllers
                 return View(model);
             }
 
+            foreach (var tool in model.ProjectTools)
+            {
+
+                if ((await projectService.ToolsUsedExists(tool.Id)) == false)
+                {
+                    ModelState.AddModelError(nameof(tool.Id), "Tool does not exist");
+                    model.ProjectTools = toolsUsed.Select(t => new ProjectToolsUsedModel()
+                    {
+                        Id = t.Id,
+                        Name = t.Name,
+                        IsChecked = false
+                    })
+                .ToList();
+
+                    return View(model);
+                }
+            }
+
+
             if (ModelState.IsValid == false)
             {
                 model.ProjectCategories = await projectService.GetAllCategories();
                 model.ProjectAwards = await projectService.GetAllAwards();
+                model.ProjectTools = toolsUsed.Select(t => new ProjectToolsUsedModel()
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    IsChecked = false
+                })
+                .ToList();
 
                 return View(model);
             }
 
             await projectService.Edit(model.Id, model);
 
-            return RedirectToAction(nameof(Details), new { id = model.Id , information = model.GetInformation() });
+            return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetInformation() });
         }
 
         [HttpGet]
