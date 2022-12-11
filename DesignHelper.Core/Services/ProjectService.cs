@@ -179,8 +179,6 @@ namespace DesignHelper.Services
 
         public async Task Edit(int projectId, ProjectAddViewModel model)
         {
-            //var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
-
             var project = await repo.AllReadonly<ProjectEntity>().Include(p => p.ProjectsToolsUsed).FirstOrDefaultAsync(p => p.Id == projectId);
 
             project.Description = model.Description;
@@ -193,7 +191,12 @@ namespace DesignHelper.Services
             project.Rating = model.Rating;
             project.AwardId = model.AwardId;
 
-            //await repo.DeleteAsync<ProjectToolsUsed>(projectId);
+            foreach (var item in project.ProjectsToolsUsed.ToList())
+            {
+                repo.Delete<ProjectToolsUsed>(project.ProjectsToolsUsed.First(p => p.ToolsUsedId == item.ToolsUsedId));
+            }
+
+            repo.Update(project);
 
             foreach (var tool in model.ToolsUsedChecked)
             {
@@ -326,6 +329,8 @@ namespace DesignHelper.Services
 
         public async Task<ProjectDetailsViewModel> ProjectDetailsById(int id)
         {
+            var result = await repo.AllReadonly<ProjectEntity>().Include(p => p.ProjectsToolsUsed).FirstOrDefaultAsync(p => p.Id == id);
+
             return await repo.AllReadonly<ProjectEntity>()
                 .Where(p => p.IsActive)
                 .Where(p => p.Id == id)
