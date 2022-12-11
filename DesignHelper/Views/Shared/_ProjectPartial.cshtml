@@ -15,11 +15,14 @@
             asp-route-information="@Model.GetInformation()" class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
+                @if (this.User.IsAdmin() || this.User.IsModerator())
+                {
                             <a asp-area="" asp-controller="Project" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-warning">Edit</a>
-                        <a asp-area="" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id"
+                                <a asp-area="" asp-controller="Project" asp-action="Delete" asp-route-id="@Model.Id"
                class="btn btn-danger">Delete</a>
-                    <p></p>
+                            <p></p>
+                }
                
                 @if (!Model.IsFavourite)
                 {

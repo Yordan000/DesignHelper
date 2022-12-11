@@ -4,7 +4,7 @@ using static DesignHelper.Areas.User.Constrains.UserConstrains;
 
 namespace DesignHelper.Areas.User.Controllers
 {
-    [Area(AreaName)]
+    [Area(UserName)]
     [Route("User/[controller]/[Action]/{id?}")]
     [Authorize(Roles = UserRoleName)]
     public class BaseController : Controller

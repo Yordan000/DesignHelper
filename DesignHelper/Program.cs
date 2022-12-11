@@ -49,6 +49,8 @@ else
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -74,6 +76,8 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapRazorPages();
 });
+
+app.SeedRoles();
 
 app.UseResponseCaching();
 
