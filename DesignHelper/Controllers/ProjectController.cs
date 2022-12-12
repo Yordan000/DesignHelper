@@ -126,10 +126,10 @@ namespace DesignHelper.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            //if (!User.IsAdmin() || !User.IsModerator())
-            //{
-            //    return Unauthorized();
-            //}
+            if (!User.IsAdmin() || !User.IsModerator())
+            {
+                return Unauthorized();
+            }
 
             if ((await projectService.Exists(id)) == false)
             {
@@ -140,7 +140,6 @@ namespace DesignHelper.Controllers
             var project = await projectService.ProjectDetailsById(id);
             var categoryId = await projectService.GetProjectCategoryId(id);
             var awardId = await projectService.GetProjectAwardId(id);
-            //var toolsId = await projectService.GetProjectToolsId(id);
 
             var toolsUsed = await projectService.GetAllTools();
 
@@ -172,10 +171,10 @@ namespace DesignHelper.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProjectAddViewModel model)
         {
-            //if (!User.IsAdmin() || !User.IsModerator())
-            //{
-            //    return Unauthorized();
-            //}
+            if (!User.IsAdmin() || !User.IsModerator())
+            {
+                return Unauthorized();
+            }
 
             var toolsUsed = await projectService.GetAllTools();
 

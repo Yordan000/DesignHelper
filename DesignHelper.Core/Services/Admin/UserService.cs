@@ -2,6 +2,7 @@
 using DesignHelper.Core.Models.Admin;
 using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesignHelper.Core.Services.Admin
@@ -9,10 +10,12 @@ namespace DesignHelper.Core.Services.Admin
     public class UserService : IUserService
     {
         private readonly IRepository repo;
+        private readonly UserManager<User> userManager;
 
-        public UserService(IRepository _repo)
+        public UserService(IRepository _repo, UserManager<User> _userManager)
         {
             repo = _repo;
+            userManager = _userManager;
         }
 
         public async Task<IEnumerable<UserServiceModel>> All()
@@ -24,7 +27,7 @@ namespace DesignHelper.Core.Services.Admin
                 {
                     UserId = u.Id,
                     Email = u.Email,
-                    FullName = $"{u.FirstName} {u.LastName}"
+                    FullName = $"{u.FirstName} {u.LastName}",
                 })
                 .ToListAsync();
 

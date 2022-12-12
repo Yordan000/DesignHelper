@@ -1,24 +1,37 @@
-﻿@{
+﻿@inject IUserService users;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="mt-4 p-5 bg-light text-center">
-    <h2 class="display-4">Hello, Admin!</h2>
+    @if (users.UserFullName(User.Id()) is var fullName && fullName != null)
+    {
+            <h2  class="display-4">Hello, @fullName!</h2>
+    }
+    else
+    {
+            <h2  class="display-4">Hello, @User?.Identity?.Name!</h2>
+    }
     <p class="lead mb-1 mt-3">
         This is your administrator area - you can <b>read</b>, <b>create</b>,
-        <b>delete</b> and <b>edit</b> projects.
+        <b>delete</b> and <b>edit</b> projects. Also you can <b>add roles</b> and see all <b>users</b>.
     </p>
     <hr class="my-4">
     <a asp-area="" asp-controller="Project" asp-action="All"
        class="btn btn-primary btn-lg">All Projects</a>
-    <a asp-area="" asp-controller="Project" asp-action="Add"
-       class="btn btn-primary btn-lg">Add Project</a>
+       <a asp-area="Admin" asp-controller="Project" asp-action="Added"
+       class="btn btn-primary btn-lg">All Added Projects</a>
+    
     <span>  |   </span>
+    <a asp-area="" asp-controller="Project" asp-action="Add"
+       class="btn btn-primary btn-lg">Add Projects</a>
+    <a asp-area="Admin" asp-controller="Project" asp-action="Roles"
+       class="btn btn-primary btn-lg">Add Roles</a>
+    <span>  |   </span>
+
     <a asp-area="Admin" asp-controller="Project" asp-action="Favourites"
        class="btn btn-primary btn-lg">Favourites</a>
-    <span>  |   </span>
-    <a asp-area="Admin" asp-controller="Project" asp-action="All"
-       class="btn btn-primary btn-lg">All Rents</a>
-    <a asp-area="Admin" asp-controller="Users" asp-action="All"
+       <a asp-area="Admin" asp-controller="User" asp-action="All"
        class="btn btn-primary btn-lg">All Users</a>
 </div>

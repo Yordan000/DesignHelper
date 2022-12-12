@@ -28,9 +28,13 @@
                         </li>
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
+                            @if (User.IsAdmin() || User.IsModerator())
+                            {
                                 <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Add">Add Projects</a>
-                                    </li>
+                                   <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Add">Add Projects</a>
+                                </li>
+                                
+                            }
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Favourites">Favourites</a>
                                 </li>
