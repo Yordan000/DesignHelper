@@ -31,22 +31,22 @@
                 {
                     @if (this.User.IsAdmin() || this.User.IsModerator())
                     {
-                                 <a class="btn btn-warning" asp-controller="Project" asp-action="Edit"
+                                 <a class="btn btn-warning" asp-area="" asp-controller="Project" asp-action="Edit"
                        asp-route-id="@Model.Id">Edit</a>
-                                    <a class="ml-2 btn btn-danger" asp-controller="Project" asp-action="Delete"
+                                            <a class="ml-2 btn btn-danger" asp-area="" asp-controller="Project" asp-action="Delete"
                        asp-route-id="@Model.Id">Delete</a>
                     }
                         
                     @if (!Model.IsFavourite)
                     {
-                         <form class="ml-2" asp-controller="Project"
+                                 <form class="ml-2" asp-area="" asp-controller="Project"
                               asp-action="AddToFavourites" asp-route-id="@Model.Id" method="post">
                               <input class="btn btn-primary" type="submit" value="Add to Favourites" />
                          </form>
                     }
                     else
                     {
-                         <form class="ml-2" asp-controller="Project" 
+                                 <form class="ml-2" asp-area="" asp-controller="Project" 
                          asp-action="RemoveFromFavourites" asp-route-id="@Model.Id" method="post">
                               <input class="btn btn-primary" type="submit" value="Remove from Favourites" />
                          </form>

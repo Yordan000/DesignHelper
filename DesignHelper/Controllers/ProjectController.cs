@@ -41,7 +41,7 @@ namespace DesignHelper.Controllers
 
         public async Task<IActionResult> Favourites()
         {
-            if (User.IsInRole(AdminRoleName))
+            if (this.User.IsInRole(AdminRoleName))
             {
                 return RedirectToAction("Favourites", "Project", new { area = AdminName });
             }
@@ -57,10 +57,6 @@ namespace DesignHelper.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            if (!User.IsAdmin() || !User.IsModerator())
-            {
-                return Unauthorized();
-            }
 
             var toolsUsed = await projectService.GetAllTools();
 
@@ -83,10 +79,6 @@ namespace DesignHelper.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ProjectAddViewModel model)
         {
-            if (!User.IsAdmin() || !User.IsModerator())
-            {
-                return Unauthorized();
-            }
 
             if (!ModelState.IsValid)
             {
@@ -126,10 +118,6 @@ namespace DesignHelper.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if (!User.IsAdmin() || !User.IsModerator())
-            {
-                return Unauthorized();
-            }
 
             if ((await projectService.Exists(id)) == false)
             {
@@ -171,10 +159,6 @@ namespace DesignHelper.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, ProjectAddViewModel model)
         {
-            if (!User.IsAdmin() || !User.IsModerator())
-            {
-                return Unauthorized();
-            }
 
             var toolsUsed = await projectService.GetAllTools();
 
@@ -259,10 +243,6 @@ namespace DesignHelper.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!User.IsAdmin() || !User.IsModerator())
-            {
-                return Unauthorized();
-            }
 
             if ((await projectService.Exists(id)) == false)
             {
@@ -283,10 +263,6 @@ namespace DesignHelper.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ProjectDetailsViewModel project, int id)
         {
-            if (!User.IsAdmin() || !User.IsModerator())
-            {
-                return Unauthorized();
-            }
 
             if ((await projectService.Exists(id)) == false)
             {

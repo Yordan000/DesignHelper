@@ -7,21 +7,24 @@
 
 @if (Model.Count() == 0)
 {
-        <div class="mt-4 p-5 bg-light">
-                <h1 class="display-5 text-center">You can choose different architectural and interior design projects in here.</h1>
-            <p class="lead text-center">
-                There are no projects in the system currently available
-                so why don't you just add one?
-            </p>
-            <hr class="my-4">
-            <p class="lead text-center">
+            <div class="mt-4 p-5 bg-light">
+                    <h1 class="display-5 text-center">You can choose different architectural and interior design projects in here.</h1>
+                <p class="lead text-center">
+                    There are no projects in the system currently available!
+                </p>
+                <hr class="my-4">
+                <p class="lead text-center">
             @if (this.User?.Identity != null && this.User.Identity.IsAuthenticated)
             {
-                        <a asp-controller="Project" asp-action="Add" class="btn btn-primary btn-lg"
+                if (this.User.IsAdmin() || this.User.IsModerator())
+                {
+                                    <a asp-area="" asp-controller="Project" asp-action="Add" class="btn btn-primary btn-lg"
                     role="button">Add Project</a>
+
+                }
             }
-            </p>
-        </div>
+                </p>
+            </div>
 }
 
 <div class="mb-5"></div>
@@ -30,17 +33,17 @@
     <div class="carousel-inner">
         @foreach (var project in Model)
         {
-                <div class="carousel-item @(first ? "active" : string.Empty)">
+                    <div class="carousel-item @(first ? "active" : string.Empty)">
 
-                    <img class="d-block w-100" style="height:700px"
+                        <img class="d-block w-100" style="height:700px"
                     src="@project.ImageUrl" alt="@project.Title">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>
-                            <a class="btn btn-primary " asp-controller="Project" asp-action="Details"
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>
+                                <a class="btn btn-primary " asp-controller="Project" asp-action="Details"
                             asp-route-id="@project.Id" asp-route-information="@project.GetInformation()"> @project.Title</a>
-                        </h5>
+                            </h5>
+                        </div>
                     </div>
-                </div>
 
             first = false;
         }

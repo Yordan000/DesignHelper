@@ -1,9 +1,18 @@
-﻿@{
+﻿@inject IUserService users;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="mt-4 p-5 bg-light text-center">
-    <h2 class="display-4">Hello, Moderator!</h2>
+    @if (users.UserFullName(User.Id()) is var fullName && fullName != null)
+    {
+                    <h2  class="display-4">Hello, @fullName!</h2>
+    }
+    else
+    {
+                    <h2  class="display-4">Hello, @User?.Identity?.Name!</h2>
+    }
     <p class="lead mb-1 mt-3">
         This is your moderator area - you can <b>read</b>, <b>create</b>,
         <b>delete</b> and <b>edit</b> projects.
