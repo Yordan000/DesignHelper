@@ -11,7 +11,7 @@ namespace DesignHelper.Contracts
 
         Task<IEnumerable<ProjectToolsUsedModel>> GetAllTools();
 
-        Task<int> Create(ProjectAddViewModel model);
+        Task<int> Create(ProjectAddViewModel model , string userId);
 
         Task<ProjectQueryServiceModel> All(
             string? category = null,
@@ -58,6 +58,9 @@ namespace DesignHelper.Contracts
         Task<List<int>> GetProjectToolsId(int projectId);
 
         Task<bool> ToolsUsedExists(int toolsId);
+
+        Task<IEnumerable<ProjectServiceModel>> AllProjectsByUserId(string userId);
+        Task<IEnumerable<ProjectServiceModel>> AllProjectsByModeratorId();
 
     }
 }

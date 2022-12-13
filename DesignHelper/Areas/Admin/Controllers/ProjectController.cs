@@ -20,7 +20,10 @@ namespace DesignHelper.Areas.Admin.Controllers
             var adminId = User.Id();
 
             myProjects.FavouriteProjects = await projectService.Favourites(adminId);
-            myProjects.AddedProjects = await projectService.Favourites(adminId);
+
+            myProjects.AddedProjects = await projectService.AllProjectsByUserId(adminId);
+
+            myProjects.ProjectsAddedByModerator = await projectService.AllProjectsByModeratorId();
 
             return View(myProjects);
         }

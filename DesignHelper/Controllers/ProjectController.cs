@@ -89,7 +89,7 @@ namespace DesignHelper.Controllers
                 return View(model);
             }
 
-            int id = await projectService.Create(model);
+            int id = await projectService.Create(model, User.Id());
 
             return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }

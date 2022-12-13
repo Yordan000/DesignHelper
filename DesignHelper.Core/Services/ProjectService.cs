@@ -3,6 +3,7 @@ using DesignHelper.Core.Exceptions;
 using DesignHelper.Core.Models.Project;
 using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DesignHelper.Services
@@ -156,7 +157,7 @@ namespace DesignHelper.Services
                 .AnyAsync(c => c.Id == toolsId);
         }
 
-        public async Task<int> Create(ProjectAddViewModel model)
+        public async Task<int> Create(ProjectAddViewModel model, string userId)
         {
             var project = new ProjectEntity()
             {
@@ -169,6 +170,7 @@ namespace DesignHelper.Services
                 Author = model.Author,
                 ImageUrl = model.ImageUrl,
                 Rating = model.Rating,
+                AddedById = userId
             };
 
             await repo.AddAsync(project);
@@ -403,6 +405,54 @@ namespace DesignHelper.Services
             repo.Delete<UserWithProject>(project.UsersProjects.First(p => p.ProjectId == projectId));
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ProjectServiceModel>> AllProjectsByUserId(string userId)
+        {
+            return await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.AddedById == userId)
+                .Where(t => t.IsActive)
+                .Select(p => new ProjectServiceModel()
+                {
+                    Id = p.Id,
+                    Area = p.Area,
+                    Author = p.Author,
+                    ImageUrl = p.ImageUrl,
+                    Location = p.Location,
+                    Rating = p.Rating,
+                    Title = p.Title,
+                    IsFavourite = p.UsersProjects.Any(u => u.UserId == userId) ? true : false
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProjectServiceModel>> AllProjectsByModeratorId()
+        {
+            var roleId = await repo.AllReadonly<IdentityRole>()
+                .Where(p => p.Name == "Moderator")
+                .Select(p => p.Id)
+                .FirstOrDefaultAsync();
+
+            var moderatorId = await repo.AllReadonly<IdentityUserRole<string>>()
+                .Where(u => u.RoleId == roleId)
+                .Select(u => u.UserId)
+                .FirstOrDefaultAsync();
+
+            return await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.AddedById == moderatorId)
+                .Where(t => t.IsActive)
+                .Select(p => new ProjectServiceModel()
+                {
+                    Id = p.Id,
+                    Area = p.Area,
+                    Author = p.Author,
+                    ImageUrl = p.ImageUrl,
+                    Location = p.Location,
+                    Rating = p.Rating,
+                    Title = p.Title,
+                    IsFavourite = p.UsersProjects.Any(u => u.UserId == moderatorId) ? true : false
+                })
+                .ToListAsync();
         }
     }
 }

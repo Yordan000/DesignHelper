@@ -7,5 +7,7 @@ namespace DesignHelper.Areas.Admin.Models
         public IEnumerable<ProjectServiceModel> AddedProjects { get; set; } = new List<ProjectServiceModel>();
 
         public IEnumerable<ProjectServiceModel> FavouriteProjects { get; set; } = new List<ProjectServiceModel>();
+
+        public IEnumerable<ProjectServiceModel> ProjectsAddedByModerator { get; set; } = new List<ProjectServiceModel>();
     }
 }

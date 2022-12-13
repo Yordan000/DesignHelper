@@ -52,7 +52,9 @@ namespace DesignHelper.Infrastructure.Data
 
         public bool IsActive { get; set; } = true;
 
-        public List<UserWithProject> UsersProjects { get; set; } = new List<UserWithProject>(); 
+        public List<UserWithProject> UsersProjects { get; set; } = new List<UserWithProject>();
+
+        public string AddedById { get; set; } = null!;
 
     }
 }

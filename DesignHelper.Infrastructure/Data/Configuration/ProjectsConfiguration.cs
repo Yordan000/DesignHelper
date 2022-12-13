@@ -26,7 +26,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 2,
                      AwardId = 2,
                      Author = "LUKSTUDIO",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07"
                 },
                 new ProjectEntity()
                 {
@@ -40,7 +41,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 1,
                      AwardId = 5,
                      Author = "Colega Architects",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07"
                 },
                 new ProjectEntity()
                 {
@@ -54,7 +56,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 3,
                      AwardId = 3,
                      Author = "AshariArchitects",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "5faa7c98-430f-4036-928f-f5210e8fbeea"
                 },
                 new ProjectEntity()
                 {
@@ -68,7 +71,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 4,
                      AwardId = 5,
                      Author = "Maria Eirini Moschona",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "5faa7c98-430f-4036-928f-f5210e8fbeea"
                 },
                 new ProjectEntity()
                 {
@@ -82,7 +86,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 1,
                      AwardId = 1,
                      Author = "Waechter Architecture",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "5faa7c98-430f-4036-928f-f5210e8fbeea"
                 },
                 new ProjectEntity()
                 {
@@ -96,7 +101,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 2,
                      AwardId = 5,
                      Author = "Minus Workshop",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07"
                 },
                 new ProjectEntity()
                 {
@@ -110,7 +116,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 3,
                      AwardId = 5,
                      Author = "Aedas",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "5faa7c98-430f-4036-928f-f5210e8fbeea"
                 },
                 new ProjectEntity()
                 {
@@ -124,7 +131,8 @@ namespace DesignHelper.Infrastructure.Data.Configuration
                      CategoryId = 4,
                      AwardId = 5,
                      Author = "Vivien Renziehausen",
-                     IsActive = true
+                     IsActive = true,
+                     AddedById = "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07"
                 }
             };
 

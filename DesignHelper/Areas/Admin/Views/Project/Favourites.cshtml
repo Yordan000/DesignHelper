@@ -34,3 +34,17 @@
         @await Html.PartialAsync("~/Views/Shared/_ProjectPartial.cshtml", project)
     }
 </div>
+
+<h4>Projects Added By Moderator</h4>
+
+@if (!Model.ProjectsAddedByModerator.Any())
+{
+            <h2 class="text-center">Moderator have no added projects yet!</h2>
+}
+
+<div class="row">
+    @foreach (var project in Model.ProjectsAddedByModerator)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_ProjectPartial.cshtml", project)
+    }
+</div>
