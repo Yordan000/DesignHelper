@@ -49,12 +49,10 @@ namespace DesignHelper.Infrastructure.Data
         [ForeignKey(nameof(CategoryId))]
         public Category Category { get; set; } = null!;
         public List<ProjectToolsUsed> ProjectsToolsUsed { get; set; } = new List<ProjectToolsUsed>();
+
         public bool IsActive { get; set; } = true;
 
-        public string? AddToFavouritesId { get; set; }
-
-        [ForeignKey(nameof(AddToFavouritesId))]
-        public User? AddToFavourites { get; set; } 
+        public List<UserWithProject> UsersProjects { get; set; } = new List<UserWithProject>(); 
 
     }
 }

@@ -17,5 +17,7 @@ namespace DesignHelper.Infrastructure.Data
         public string? LastName { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public List<UserWithProject> UsersProjects { get; set; } = new List<UserWithProject>();
     }
 }

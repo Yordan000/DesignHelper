@@ -21,15 +21,37 @@ namespace DesignHelper.Services
 
         public async Task AddToFavourites(int projectId, string currentUserId)
         {
-            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+            var user = await repo.AllReadonly<User>()
+                .Where(u => u.Id == currentUserId)
+                .FirstOrDefaultAsync();
 
-            if (project != null && project.AddToFavouritesId != null)
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            var project = await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.Id == projectId)
+                .FirstOrDefaultAsync();
+
+            if (project == null)
+            {
+                throw new ArgumentException("Invalid project ID");
+            }
+
+            var userProject = new UserWithProject();
+
+            if (userProject.ProjectId == projectId)
             {
                 throw new ArgumentException("Project is already added to favourites!");
             }
+            else
+            {
+                userProject.ProjectId = projectId;
+                userProject.UserId = currentUserId;
 
-            guard.AgainstNull(project, "Project can't be found!");
-            project.AddToFavouritesId = currentUserId;
+                await repo.AddAsync(userProject);
+            }
 
             await repo.SaveChangesAsync();
         }
@@ -218,21 +240,32 @@ namespace DesignHelper.Services
 
         public async Task<IEnumerable<ProjectServiceModel>> Favourites(string userId)
         {
-            return await repo.AllReadonly<ProjectEntity>()
-                .Where(p => p.AddToFavouritesId == userId)
-                .Where(p => p.IsActive)
+            var user = await repo.AllReadonly<User>()
+                .Where(u => u.Id == userId)
+                .Include(u => u.UsersProjects)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid user ID");
+            }
+
+            var result = await repo.AllReadonly<UserWithProject>()
+                .Where(u => u.UserId == userId)
                 .Select(p => new ProjectServiceModel()
                 {
-                    Id = p.Id,
-                    Rating = p.Rating,
-                    Area = p.Area,
-                    Author = p.Author,
-                    ImageUrl = p.ImageUrl,
-                    Location = p.Location,
-                    Title = p.Title,
-                    IsFavourite = p.AddToFavouritesId != null,
+                    Id = p.UserProjects.Id,
+                    Rating = p.UserProjects.Rating,
+                    Area = p.UserProjects.Area,
+                    Author = p.UserProjects.Author,
+                    ImageUrl = p.UserProjects.ImageUrl,
+                    Location = p.UserProjects.Location,
+                    Title = p.UserProjects.Title,
+                    IsFavourite = p.UserProjects.UsersProjects.Any(u => u.UserId == userId) ? true : false
                 })
                 .ToListAsync();
+
+            return result;
         }
 
         public async Task<IEnumerable<ProjectAwardsModel>> GetAllAwards()
@@ -290,20 +323,29 @@ namespace DesignHelper.Services
             return result;
         }
 
-        public async Task<bool> IsFavourite(int projectId)
+        public async Task<bool> IsFavourite(int projectId, string userId)
         {
-            return (await repo.GetByIdAsync<ProjectEntity>(projectId)).AddToFavouritesId != null;
+            bool result = false;
+
+            var userWithProject = await repo.AllReadonly<UserWithProject>().ToListAsync();
+
+            if (userWithProject.Any(p => p.UserId == userId && p.ProjectId == projectId))
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         public async Task<bool> IsFavouriteByUserWithId(int projectId, string currentUserId)
         {
             bool result = false;
-            var project = await repo.AllReadonly<ProjectEntity>()
-                .Where(p => p.IsActive)
-                .Where(p => p.Id == projectId)
+
+            var project = await repo.AllReadonly<UserWithProject>()
+                .Where(p => p.ProjectId == projectId)
                 .FirstOrDefaultAsync();
 
-            if (project != null && project.AddToFavouritesId == currentUserId)
+            if (project != null && project.UserId == currentUserId)
             {
                 result = true;
             }
@@ -347,20 +389,20 @@ namespace DesignHelper.Services
                     Location = p.Location,
                     Rating = p.Rating,
                     Title = p.Title,
-                    IsFavourite = p.AddToFavouritesId != null,
                     ToolsUsed = p.ProjectsToolsUsed.Select(p => p.ToolsUsed.Name).ToList()
                 })
                 .FirstAsync();
         }
 
-        public async Task RemoveFromFavourite(int projectId)
+        public async Task RemoveFromFavourite(int projectId, string userId)
         {
-            var project = await repo.GetByIdAsync<ProjectEntity>(projectId);
+            var project = await repo.AllReadonly<ProjectEntity>().Include(p => p.UsersProjects).FirstOrDefaultAsync(p => p.Id == projectId);
+
             guard.AgainstNull(project, "Project can't be found!");
-            project.AddToFavouritesId = null;
+
+            repo.Delete<UserWithProject>(project.UsersProjects.First(p => p.ProjectId == projectId));
 
             await repo.SaveChangesAsync();
         }
-
     }
 }

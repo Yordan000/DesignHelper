@@ -31,7 +31,7 @@ namespace DesignHelper.Contracts
 
         Task<IEnumerable<ProjectServiceModel>> Favourites(string userId); 
         
-        Task<bool> IsFavourite(int projectId);
+        Task<bool> IsFavourite(int projectId, string userId);
 
         Task<ProjectDetailsViewModel> ProjectDetailsById(int id);
 
@@ -39,7 +39,7 @@ namespace DesignHelper.Contracts
 
         Task AddToFavourites(int projectId, string currentUserId);
 
-        Task RemoveFromFavourite(int projectId);
+        Task RemoveFromFavourite(int projectId, string userId);
 
         Task<bool> Exists(int id);
 

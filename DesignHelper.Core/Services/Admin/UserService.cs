@@ -21,6 +21,12 @@ namespace DesignHelper.Core.Services.Admin
         public async Task<IEnumerable<UserServiceModel>> All()
         {
             List<UserServiceModel> result;
+            //var user = await repo.AllReadonly<User>().
+            var userId = await repo.AllReadonly<User>().ToListAsync();
+
+            var roles = await repo.AllReadonly<IdentityRole>().ToListAsync();
+
+
 
             result = await repo.AllReadonly<User>()
                 .Select(u => new UserServiceModel()
@@ -28,6 +34,7 @@ namespace DesignHelper.Core.Services.Admin
                     UserId = u.Id,
                     Email = u.Email,
                     FullName = $"{u.FirstName} {u.LastName}",
+                    //UserRole = roleId.Select(r => r.Id == u.Id).ToString()
                 })
                 .ToListAsync();
 

@@ -18,6 +18,9 @@ namespace DesignHelper.Infrastructure.Data
             builder.Entity<ProjectToolsUsed>()
                 .HasKey(p => new { p.ProjectsEntityId, p.ToolsUsedId });
 
+            builder.Entity<UserWithProject>()
+                .HasKey(u => new { u.ProjectId, u.UserId });
+
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new AwardsConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
@@ -33,5 +36,6 @@ namespace DesignHelper.Infrastructure.Data
         public DbSet<AwardEntity> Awards { get; set; } = null!;
         public DbSet<TopRatedEntity> TopRatedEntities { get; set; } = null!;
         public DbSet<ToolUsed> ToolsUsed { get; set; } = null!;
+        public DbSet<UserWithProject> UsersProjects { get; set; } = null!;
     }
 }

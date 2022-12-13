@@ -4,6 +4,7 @@ using DesignHelper.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesignHelper.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221213143000_AddingMappingTableForUsersAndProjectsNameChanged")]
+    partial class AddingMappingTableForUsersAndProjectsNameChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,6 +117,9 @@ namespace DesignHelper.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AddToFavouritesId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double>("Area")
                         .HasColumnType("float");
 
@@ -158,6 +163,8 @@ namespace DesignHelper.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddToFavouritesId");
 
                     b.HasIndex("AwardId");
 
@@ -621,7 +628,7 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = "ce6f82b6-3d55-4bb3-8e94-d051a0b01a07",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb418f8b-3d8e-424b-9e68-0f2f2d1ebb9c",
+                            ConcurrencyStamp = "e96f1833-61fb-4f40-82cf-5812bae51ce7",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -630,9 +637,9 @@ namespace DesignHelper.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG7pLXY0u+31R8e2+YiQu/S1GGKdbiLSoaq/KG6p+6lhdPgijCIwuOCnkvpCtOqcdA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIgoL/+ONvPApXH3oc6uoC96oA0EHPjoOWLfQnPcI0GIvt7kR0vJKr5t26JvUjfspQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "899fbfec-555e-4d4d-9ad5-60af822c2ef4",
+                            SecurityStamp = "2afb6618-0282-4428-83dc-59445284aa2d",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -640,7 +647,7 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = "3c128b69-c44c-4c7d-9f7a-9921c86bbf29",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "321f7fc6-d5cd-413e-a333-e78a0e4c0361",
+                            ConcurrencyStamp = "74b704a6-f9e5-4f28-9800-4018d1ea3cf5",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -649,9 +656,9 @@ namespace DesignHelper.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFRupaqpe/20hY6BLZMJr5ReBg2N8TlmcedCA+vfVXGACdzdqUvpu1jJ0omEScTkFA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBtqYwetn2ZQ6kBNHNQZaLbsXUJfYqKGS1WvdqWSsiVdFTYkPvVfoInNfmOLH1oRSg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ba242dd1-3f4a-441e-9d18-25cb2897f83f",
+                            SecurityStamp = "c5f88111-280c-4f86-afc9-64c5a45bc201",
                             TwoFactorEnabled = false,
                             UserName = "user@gmail.com"
                         },
@@ -659,7 +666,7 @@ namespace DesignHelper.Infrastructure.Migrations
                         {
                             Id = "5faa7c98-430f-4036-928f-f5210e8fbeea",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f9ee9f67-a18a-40c4-96ab-c9d9f5912c62",
+                            ConcurrencyStamp = "23163872-6866-4a0a-83d5-031680681ee4",
                             Email = "moderator@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Yordan",
@@ -668,27 +675,27 @@ namespace DesignHelper.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MODERATOR@GMAIL.COM",
                             NormalizedUserName = "MODERATOR@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOLEUHG6Dng2ITcZHRqzZqmTNuR/FvNqTjaIZO16fYBrOas9KQWv4pcJUtVVFxLWLw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEElKhwsR38lHG/6nyS7nGuy8isdoQtzjrRG4lAtbJbRulXU9bLyVHhvQQO5ms7RIUQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "90a3ed49-ecea-4a1b-b591-f295b36c78ab",
+                            SecurityStamp = "bf15f5c2-7530-49c2-a612-d9628f8eb0f1",
                             TwoFactorEnabled = false,
                             UserName = "moderator@gmail.com"
                         });
                 });
 
-            modelBuilder.Entity("DesignHelper.Infrastructure.Data.UserWithProject", b =>
+            modelBuilder.Entity("DesignHelper.Infrastructure.Data.UserWithProjects", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectsEntityId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ProjectId", "UserId");
+                    b.HasKey("ProjectsEntityId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersProjects");
+                    b.ToTable("UserWithProjects");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -830,6 +837,10 @@ namespace DesignHelper.Infrastructure.Migrations
 
             modelBuilder.Entity("DesignHelper.Infrastructure.Data.ProjectEntity", b =>
                 {
+                    b.HasOne("DesignHelper.Infrastructure.Data.User", "AddToFavourites")
+                        .WithMany()
+                        .HasForeignKey("AddToFavouritesId");
+
                     b.HasOne("DesignHelper.Infrastructure.Data.AwardEntity", "Awards")
                         .WithMany("ProjectsWithAwards")
                         .HasForeignKey("AwardId")
@@ -845,6 +856,8 @@ namespace DesignHelper.Infrastructure.Migrations
                     b.HasOne("DesignHelper.Infrastructure.Data.TopRatedEntity", null)
                         .WithMany("Projects")
                         .HasForeignKey("TopRatedEntityId");
+
+                    b.Navigation("AddToFavourites");
 
                     b.Navigation("Awards");
 
@@ -870,16 +883,16 @@ namespace DesignHelper.Infrastructure.Migrations
                     b.Navigation("ToolsUsed");
                 });
 
-            modelBuilder.Entity("DesignHelper.Infrastructure.Data.UserWithProject", b =>
+            modelBuilder.Entity("DesignHelper.Infrastructure.Data.UserWithProjects", b =>
                 {
                     b.HasOne("DesignHelper.Infrastructure.Data.ProjectEntity", "UserProjects")
-                        .WithMany("UsersProjects")
-                        .HasForeignKey("ProjectId")
+                        .WithMany("UsersWithProjects")
+                        .HasForeignKey("ProjectsEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DesignHelper.Infrastructure.Data.User", "User")
-                        .WithMany("UsersProjects")
+                        .WithMany("UsersWithProjects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -954,7 +967,7 @@ namespace DesignHelper.Infrastructure.Migrations
                 {
                     b.Navigation("ProjectsToolsUsed");
 
-                    b.Navigation("UsersProjects");
+                    b.Navigation("UsersWithProjects");
                 });
 
             modelBuilder.Entity("DesignHelper.Infrastructure.Data.ToolUsed", b =>
@@ -969,7 +982,7 @@ namespace DesignHelper.Infrastructure.Migrations
 
             modelBuilder.Entity("DesignHelper.Infrastructure.Data.User", b =>
                 {
-                    b.Navigation("UsersProjects");
+                    b.Navigation("UsersWithProjects");
                 });
 #pragma warning restore 612, 618
         }

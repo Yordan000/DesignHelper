@@ -282,7 +282,7 @@ namespace DesignHelper.Controllers
                 return RedirectToAction(nameof(All));
             }
 
-            if (await projectService.IsFavourite(id))
+            if (await projectService.IsFavourite(id, User.Id()))
             {
                 return RedirectToAction(nameof(All));
             }
@@ -296,17 +296,12 @@ namespace DesignHelper.Controllers
         public async Task<IActionResult> RemoveFromFavourites(int id)
         {
             if ((await projectService.Exists(id)) == false ||
-                (await projectService.IsFavourite(id)) == false)
+                (await projectService.IsFavourite(id, User.Id())) == false)
             {
                 return RedirectToAction(nameof(All));
             }
 
-            if ((await projectService.IsFavouriteByUserWithId(id, User.Id())) == false)
-            {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            }
-
-            await projectService.RemoveFromFavourite(id);
+            await projectService.RemoveFromFavourite(id, User.Id());
 
             return RedirectToAction(nameof(Favourites));
         }
