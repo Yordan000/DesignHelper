@@ -31,8 +31,6 @@ namespace DesignHelper.Areas.Admin.Controllers
                 memoryCache.Set(AllUsersCacheKey, users, cacheOptions);
             }
 
-            //var model = await userService.All();
-
             return View(users);
         }
     }

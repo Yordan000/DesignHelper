@@ -91,6 +91,8 @@ namespace DesignHelper.Controllers
 
             int id = await projectService.Create(model, User.Id());
 
+            TempData["message"] = "You have successfully added a project!";
+
             return RedirectToAction(nameof(Details), new { id = id, information = model.GetInformation() });
         }
 
@@ -237,6 +239,8 @@ namespace DesignHelper.Controllers
 
             await projectService.Edit(model.Id, model);
 
+            TempData["message"] = "You have successfully edited a project!";
+
             return RedirectToAction(nameof(Details), new { id = model.Id, information = model.GetInformation() });
         }
 
@@ -271,6 +275,8 @@ namespace DesignHelper.Controllers
 
             await projectService.Delete(id);
 
+            TempData["message"] = "You have successfully deleted a project!";
+
             return RedirectToAction(nameof(All));
         }
 
@@ -289,6 +295,8 @@ namespace DesignHelper.Controllers
 
             await projectService.AddToFavourites(id, User.Id());
 
+            TempData["message"] = "You have successfully added a project to your favourites!";
+
             return RedirectToAction(nameof(Favourites));
         }
 
@@ -302,6 +310,8 @@ namespace DesignHelper.Controllers
             }
 
             await projectService.RemoveFromFavourite(id, User.Id());
+
+            TempData["message"] = "You have successfully removed a project from your favourites!";
 
             return RedirectToAction(nameof(Favourites));
         }
