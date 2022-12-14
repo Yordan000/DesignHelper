@@ -60,6 +60,7 @@ namespace DesignHelper.Contracts
         Task<bool> ToolsUsedExists(int toolsId);
 
         Task<IEnumerable<ProjectServiceModel>> AllProjectsByUserId(string userId);
+
         Task<IEnumerable<ProjectServiceModel>> AllProjectsByModeratorId();
 
     }

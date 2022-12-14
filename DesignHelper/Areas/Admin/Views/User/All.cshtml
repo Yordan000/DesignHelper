@@ -13,7 +13,6 @@
             <th><label>Email</label></th>
             <th><label>Full Name</label></th>
             <th><label>User Role</label></th>
-            <th><label>Actions</label></th>
         </tr>
     </thead>
     <tbody>
@@ -23,22 +22,6 @@
                 <td><label>@user.Email</label></td>
                 <td><label>@user.FullName</label></td>
                 <td><label>@user.UserRole</label></td>
-                @*<td>
-                    @if (string.IsNullOrEmpty(user.PhoneNumber) == false)
-                    {
-                        <label>✔</label>
-                    }
-                    else
-                    {
-                        <label class="text-center">❌</label>
-                    }
-                </td>*@
-                <td>
-                    <form asp-area="Admin" asp-controller="User" asp-action="Forget" method="post">
-                        <input type="hidden" value="@user.UserId">
-                        <button type="submit" class="btn btn-danger">Forget</button>
-                    </form>
-                </td>
             </tr>
         }
     </tbody>
