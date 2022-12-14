@@ -4,6 +4,7 @@ using DesignHelper.Infrastructure.Data;
 using DesignHelper.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace DesignHelper.Core.Services.Admin
 {
@@ -26,6 +27,13 @@ namespace DesignHelper.Core.Services.Admin
 
             var users = await repo.AllReadonly<User>().ToListAsync();
 
+            var usersLeft = new List<User>();
+
+            foreach (var user in users)
+            {
+                usersLeft.Add(user);
+            }
+
             List<UserServiceModel> result = new List<UserServiceModel>();
 
             foreach (var item in usersWithRoles)
@@ -43,10 +51,23 @@ namespace DesignHelper.Core.Services.Admin
                                 FullName = $"{user.FirstName} {user.LastName}",
                                 UserRole = role.Name
                             });
+
+                            usersLeft.Remove(user);
                         }
                     }
                 }
             }
+            foreach (var item in usersLeft)
+            {
+                result.Add(new UserServiceModel()
+                {
+                    UserId = item.Id,
+                    Email = item.Email,
+                    FullName = $"{item.FirstName} {item.LastName}",
+                    UserRole = "No Role Assigned"
+                });
+            }
+
             return result;
         }
 

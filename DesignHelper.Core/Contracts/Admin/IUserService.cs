@@ -12,5 +12,6 @@ namespace DesignHelper.Core.Contracts.Admin
         string UserFullName(string userId);
 
         Task<IEnumerable<UserServiceModel>> All();
+
     }
 }
