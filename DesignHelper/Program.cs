@@ -27,9 +27,11 @@ builder.Services.AddControllersWithViews()
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
     });
 
+
 builder.Services.AddApplicationServices();
 builder.Services.AddResponseCaching();
 
+builder.Services.AddMemoryCache();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

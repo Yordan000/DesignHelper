@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using DesignHelper.Areas.Admin.Constrains;
 using DesignHelper.Infrastructure.Constrains;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Caching.Memory;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -20,13 +22,16 @@ namespace DesignHelper.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<Infrastructure.Data.User> _signInManager;
         private readonly UserManager<Infrastructure.Data.User> _userManager;
+        private readonly IMemoryCache _memoryCache;
 
         public RegisterModel(
             UserManager<Infrastructure.Data.User> userManager,
-            SignInManager<Infrastructure.Data.User> signInManager)
+            SignInManager<Infrastructure.Data.User> signInManager,
+            IMemoryCache memoryCache)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _memoryCache = memoryCache;
         }
 
         /// <summary>
@@ -118,6 +123,9 @@ namespace DesignHelper.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    _memoryCache.Remove(AdminConstrains.AllUsersCacheKey);
+
                     return LocalRedirect("~/Login");
                 }
                 foreach (var error in result.Errors)

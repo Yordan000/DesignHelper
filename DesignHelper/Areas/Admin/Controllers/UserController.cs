@@ -1,5 +1,8 @@
 ﻿using DesignHelper.Core.Contracts.Admin;
+using DesignHelper.Core.Models.Admin;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using static DesignHelper.Areas.Admin.Constrains.AdminConstrains;
 
 namespace DesignHelper.Areas.Admin.Controllers
 {
@@ -7,15 +10,30 @@ namespace DesignHelper.Areas.Admin.Controllers
     {
         private readonly IUserService userService;
 
-        public UserController(IUserService _userService)
+        private readonly IMemoryCache memoryCache;
+
+        public UserController(IUserService _userService, IMemoryCache _memoryCache)
         {
             userService = _userService;
+            memoryCache = _memoryCache;
         }
         public async Task<IActionResult> All()
         {
-            var model = await userService.All();
+            var users = memoryCache.Get<IEnumerable<UserServiceModel>>(AllUsersCacheKey);
 
-            return View(model);
+            if (users == null)
+            {
+                users = await userService.All();
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+
+                memoryCache.Set(AllUsersCacheKey, users, cacheOptions);
+            }
+
+            //var model = await userService.All();
+
+            return View(users);
         }
     }
 }
