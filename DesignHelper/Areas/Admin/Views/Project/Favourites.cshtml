@@ -7,13 +7,12 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<h4>My Added Projects</h4>
+<h4><u>My Added Projects</u></h4>
 
 @if (!Model.AddedProjects.Any())
 {
         <h2 class="text-center">You have no added projects yet!</h2>
 }
-
 <div class="row">
     @foreach (var project in Model.AddedProjects)
     {
@@ -21,7 +20,7 @@
     }
 </div>
 
-<h4>My Favourite Projectss</h4>
+<h4><u>My Favourite Projectss</u></h4>
 
 @if (!Model.FavouriteProjects.Any())
 {
@@ -35,7 +34,7 @@
     }
 </div>
 
-<h4>Projects Added By Moderator</h4>
+<h4><u>Projects Added By Moderator</u></h4>
 
 @if (!Model.ProjectsAddedByModerator.Any())
 {

@@ -20,32 +20,39 @@ namespace DesignHelper.Core.Services.Admin
 
         public async Task<IEnumerable<UserServiceModel>> All()
         {
-            List<UserServiceModel> result;
-            //var user = await repo.AllReadonly<User>().
-            var userId = await repo.AllReadonly<User>().ToListAsync();
-
             var roles = await repo.AllReadonly<IdentityRole>().ToListAsync();
 
+            var usersWithRoles = await repo.AllReadonly<IdentityUserRole<string>>().ToListAsync();
 
+            var users = await repo.AllReadonly<User>().ToListAsync();
 
-            result = await repo.AllReadonly<User>()
-                .Select(u => new UserServiceModel()
+            List<UserServiceModel> result = new List<UserServiceModel>();
+
+            foreach (var item in usersWithRoles)
+            {
+                foreach (var role in roles)
                 {
-                    UserId = u.Id,
-                    Email = u.Email,
-                    FullName = $"{u.FirstName} {u.LastName}",
-                    //UserRole = roleId.Select(r => r.Id == u.Id).ToString()
-                })
-                .ToListAsync();
-
-
-
+                    foreach (var user in users)
+                    {
+                        if (item.UserId == user.Id && item.RoleId == role.Id)
+                        {
+                            result.Add(new UserServiceModel()
+                            {
+                                UserId = user.Id,
+                                Email = user.Email,
+                                FullName = $"{user.FirstName} {user.LastName}",
+                                UserRole = role.Name
+                            });
+                        }
+                    }
+                }
+            }
             return result;
         }
 
         public string UserFullName(string userId)
         {
-            var user =  repo.AllReadonly<User>().First(u => u.Id == userId);
+            var user = repo.AllReadonly<User>().First(u => u.Id == userId);
 
             if (string.IsNullOrEmpty(user.FirstName) || string.IsNullOrEmpty(user.LastName))
             {
