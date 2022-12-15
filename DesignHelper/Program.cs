@@ -58,6 +58,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.SeedRoles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -79,7 +81,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapRazorPages();
 });
 
-app.SeedRoles();
 
 app.UseResponseCaching();
 
