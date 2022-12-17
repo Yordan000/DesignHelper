@@ -9,7 +9,7 @@ namespace DesignHelper.Core.Models.Project
 {
     public class AllProjectsQueryModel
     {
-        public const int ProjectsPerPage = 3;
+        public const int ProjectsPerPage = 6;
 
         public string? Category { get; set; }
 

@@ -19,7 +19,9 @@ namespace DesignHelper.Contracts
             string? searchTerm = null,
             ProjectSorting sorting = ProjectSorting.Newest,
             int currentPage = 1,
-            int housesPerPage = 1);
+            int projectsPerPage = 1);
+
+        Task<ProjectQueryServiceModel> TopRatedProjects(int currentPage = 1, int projectsPerPage = 1);
 
         Task<IEnumerable<string>> AllCategoriesNames();
 

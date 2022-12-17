@@ -57,7 +57,7 @@ namespace DesignHelper.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<ProjectQueryServiceModel> All(string? category = null, string? award = null, string? searchTerm = null, ProjectSorting sorting = ProjectSorting.Newest, int currentPage = 1, int housesPerPage = 1)
+        public async Task<ProjectQueryServiceModel> All(string? category = null, string? award = null, string? searchTerm = null, ProjectSorting sorting = ProjectSorting.Newest, int currentPage = 1, int projectsPerPage = 1)
         {
             var result = new ProjectQueryServiceModel();
             var projects = repo.AllReadonly<ProjectEntity>()
@@ -95,8 +95,8 @@ namespace DesignHelper.Services
             };
 
             result.Projects = await projects
-                .Skip((currentPage - 1) * housesPerPage)
-                .Take(housesPerPage)
+                .Skip((currentPage - 1) * projectsPerPage)
+                .Take(projectsPerPage)
                 .Select(p => new ProjectServiceModel()
                 {
                     Area = p.Area,
@@ -454,6 +454,35 @@ namespace DesignHelper.Services
                     IsFavourite = p.UsersProjects.Any(u => u.UserId == moderatorId) ? true : false
                 })
                 .ToListAsync();
+        }
+
+        public async Task<ProjectQueryServiceModel> TopRatedProjects(int currentPage = 1,int projectsPerPage = 1)
+        {
+            var result = new ProjectQueryServiceModel();
+            var projects = repo.AllReadonly<ProjectEntity>()
+                .Where(h => h.IsActive);
+
+            result.Projects = await projects
+                .Skip((currentPage - 1) * projectsPerPage)
+                .Take(projectsPerPage)
+                .OrderByDescending(p => p.Rating)
+                .ThenByDescending(p => p.Area)
+                .Select(p => new ProjectServiceModel()
+                {
+                    Area = p.Area,
+                    Location = p.Location,
+                    Author = p.Author,
+                    Id = p.Id,
+                    ImageUrl = p.ImageUrl,
+                    Rating = p.Rating,
+                    Title = p.Title
+
+                })
+                .ToListAsync();
+
+            result.TotalProjectsCount = await projects.CountAsync();
+
+            return result;
         }
     }
 }

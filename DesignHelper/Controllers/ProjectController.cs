@@ -39,6 +39,18 @@ namespace DesignHelper.Controllers
             return View(query);
         }
 
+        public async Task<IActionResult> TopRated(AllProjectsQueryModel query)
+        {
+            var result = await projectService.TopRatedProjects(
+                query.CurrentPage,
+                AllProjectsQueryModel.ProjectsPerPage);
+
+            query.TotalProjectsCount = result.TotalProjectsCount;
+            query.Projects = result.Projects;
+
+            return View(query);
+        }
+
         public async Task<IActionResult> Favourites()
         {
             if (this.User.IsInRole(AdminRoleName))
