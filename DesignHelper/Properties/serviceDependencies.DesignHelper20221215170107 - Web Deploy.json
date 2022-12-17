@@ -2,7 +2,7 @@
   "dependencies": {
     "mssql1": {
       "secretStore": "AzureAppSettings",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/designhelper1dbserver/databases/DesignHelper_db1",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/designhelper1dbserver/databases/DesignHelper_db1",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:DefaultConnection"
     }

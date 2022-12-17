@@ -217,7 +217,7 @@ namespace DesignHelper.Services
 
             foreach (var item in project.ProjectsToolsUsed.ToList())
             {
-                repo.Delete<ProjectToolsUsed>(project.ProjectsToolsUsed.First(p => p.ToolsUsedId == item.ToolsUsedId));
+                 repo.Delete<ProjectToolsUsed>(project.ProjectsToolsUsed.First(p => p.ToolsUsedId == item.ToolsUsedId));
             }
 
             repo.Update(project);
@@ -315,6 +315,7 @@ namespace DesignHelper.Services
         {
             return (await repo.GetByIdAsync<ProjectEntity>(projectId)).CategoryId;
         }
+
         public async Task<List<int>> GetProjectToolsId(int projectId)
         {
             var result = await repo.AllReadonly<ProjectToolsUsed>()
