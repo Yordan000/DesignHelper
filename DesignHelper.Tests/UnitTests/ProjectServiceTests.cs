@@ -6,9 +6,6 @@ using DesignHelper.Infrastructure.Data.Common;
 using DesignHelper.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace DesignHelper.Tests.UnitTests
 {
@@ -750,6 +747,28 @@ namespace DesignHelper.Tests.UnitTests
             Assert.That(3, Is.EqualTo(projectCollection.Count()));
             Assert.That(projectCollection.Any(p => p.Id == 1), Is.False);
 
+        }
+
+        [Test]
+        public async Task TestProjectTopRated()
+        {
+            var repo = new Repository(applicationDbContext);
+
+            projectService = new ProjectService(repo, guard);
+
+            await repo.AddRangeAsync(new List<ProjectEntity>()
+            {
+                new ProjectEntity() { Id = 10 , Author = "", Description = "", ImageUrl = "", Location = "", Title = "", AddedById = "", Rating = 4},
+                new ProjectEntity() { Id = 13 , Author = "", Description = "", ImageUrl = "", Location = "", Title = "", AddedById = "", Rating = 6},
+                new ProjectEntity() { Id = 15 , Author = "", Description = "", ImageUrl = "", Location = "", Title = "", AddedById = "", Rating = 7},
+                new ProjectEntity() { Id = 12 , Author = "", Description = "", ImageUrl = "", Location = "", Title = "", AddedById = "", Rating = 8}
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await projectService.TopRatedProjects();
+
+            Assert.That(result.Projects.Count(), Is.EqualTo(6));
         }
 
         [Test]

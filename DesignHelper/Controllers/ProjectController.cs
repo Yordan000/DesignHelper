@@ -39,11 +39,11 @@ namespace DesignHelper.Controllers
             return View(query);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> TopRated(AllProjectsQueryModel query)
         {
-            var result = await projectService.TopRatedProjects(
-                query.CurrentPage,
-                AllProjectsQueryModel.ProjectsPerPage);
+            var result = await projectService.TopRatedProjects();
 
             query.TotalProjectsCount = result.TotalProjectsCount;
             query.Projects = result.Projects;

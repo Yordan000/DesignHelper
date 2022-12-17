@@ -456,33 +456,57 @@ namespace DesignHelper.Services
                 .ToListAsync();
         }
 
-        public async Task<ProjectQueryServiceModel> TopRatedProjects(int currentPage = 1,int projectsPerPage = 1)
+        public async Task<ProjectQueryServiceModel> TopRatedProjects()
         {
             var result = new ProjectQueryServiceModel();
-            var projects = repo.AllReadonly<ProjectEntity>()
-                .Where(h => h.IsActive);
-
-            result.Projects = await projects
-                .Skip((currentPage - 1) * projectsPerPage)
-                .Take(projectsPerPage)
+            var projects = await repo.AllReadonly<ProjectEntity>()
+                .Where(p => p.IsActive)
+                .Take(6)
                 .OrderByDescending(p => p.Rating)
                 .ThenByDescending(p => p.Area)
-                .Select(p => new ProjectServiceModel()
-                {
-                    Area = p.Area,
-                    Location = p.Location,
-                    Author = p.Author,
-                    Id = p.Id,
-                    ImageUrl = p.ImageUrl,
-                    Rating = p.Rating,
-                    Title = p.Title
-
-                })
                 .ToListAsync();
 
-            result.TotalProjectsCount = await projects.CountAsync();
+            result.Projects = projects.Select(p => new ProjectServiceModel()
+            {
+                Area = p.Area,
+                Location = p.Location,
+                Author = p.Author,
+                Id = p.Id,
+                ImageUrl = p.ImageUrl,
+                Rating = p.Rating,
+                Title = p.Title
+            });
+
+            //result.TotalProjectsCount = await projects.CountAsync();
 
             return result;
+
+
+            //var result = new ProjectQueryServiceModel();
+            //var projects = repo.AllReadonly<ProjectEntity>()
+            //    .Where(h => h.IsActive);
+
+            //result.Projects = await projects
+            //    .Skip((currentPage - 1) * projectsPerPage)
+            //    .Take(projectsPerPage)
+            //    .OrderByDescending(p => p.Rating)
+            //    .ThenByDescending(p => p.Area)
+            //    .Select(p => new ProjectServiceModel()
+            //    {
+            //        Area = p.Area,
+            //        Location = p.Location,
+            //        Author = p.Author,
+            //        Id = p.Id,
+            //        ImageUrl = p.ImageUrl,
+            //        Rating = p.Rating,
+            //        Title = p.Title
+
+            //    })
+            //    .ToListAsync();
+
+            //result.TotalProjectsCount = await projects.CountAsync();
+
+            //return result;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace DesignHelper.Contracts
             int currentPage = 1,
             int projectsPerPage = 1);
 
-        Task<ProjectQueryServiceModel> TopRatedProjects(int currentPage = 1, int projectsPerPage = 1);
+        Task<ProjectQueryServiceModel> TopRatedProjects();
 
         Task<IEnumerable<string>> AllCategoriesNames();
 
