@@ -1,5 +1,4 @@
 ﻿using DesignHelper.Core.Models.Project;
-using DesignHelper.Infrastructure.Data;
 
 namespace DesignHelper.Contracts
 {
